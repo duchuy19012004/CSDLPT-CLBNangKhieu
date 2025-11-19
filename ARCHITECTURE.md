@@ -94,12 +94,13 @@
 └──────────────────────────────────────────────────────────────┘
 ```
 
-## 3. Phân mảnh dữ liệu theo chức năng
+## 3. Phân mảnh dữ liệu theo ID
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    PHÂN MẢNH THEO CHIỀU DỌC                 │
-│                   (Vertical Fragmentation)                  │
+│                    PHÂN MẢNH THEO CHIỀU NGANG               │
+│                   (Horizontal Fragmentation)                │
+│                      Sử dụng UNION ALL                      │
 └─────────────────────────────────────────────────────────────┘
 
         ┌──────────────────┴──────────────────┐
@@ -108,38 +109,60 @@
 ┌──────────────────┐                ┌──────────────────┐
 │    SITE A        │                │     SITE B       │
 │                  │                │                  │
-│  Quản lý tổ chức │                │  Quản lý hoạt    │
-│  & Nhân sự       │                │  động học tập    │
+│  Dữ liệu ID nhỏ  │                │  Dữ liệu ID lớn  │
 │                  │                │                  │
-│  • Câu lạc bộ    │                │  • Sinh viên     │
-│  • Giảng viên    │                │  • Lớp học       │
-│                  │                │  • Biên lai      │
+│  • CauLacBo 1-3  │                │  • CauLacBo 4+   │
+│  • GiangVien 1-5 │                │  • GiangVien 6+  │
+│  • SinhVien 1-5  │                │  • SinhVien 6+   │
+│  • LopNK 1-3     │                │  • LopNK 4+      │
+│  • BienLai 1-4   │                │  • BienLai 5+    │
 └──────────────────┘                └──────────────────┘
+
+        │                                     │
+        └──────────────────┬──────────────────┘
+                           ↓
+                    ┌─────────────┐
+                    │ UNION ALL   │
+                    │ Kết hợp dữ  │
+                    │ liệu 2 site │
+                    └─────────────┘
 ```
 
-## 4. Cơ chế Trigger INSTEAD OF
+## 4. Cơ chế Trigger INSTEAD OF với định tuyến
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    MỖI VIEW CÓ 3 TRIGGER                    │
+│         MỖI VIEW CÓ 3 TRIGGER VỚI LOGIC ĐỊNH TUYẾN          │
 └─────────────────────────────────────────────────────────────┘
 
-    VIEW: vw_CauLacBo
+    VIEW: vw_CauLacBo (UNION ALL từ Site A + Site B)
          │
-         ├─→ trg_Insert_CauLacBo  ──→  INSERT vào SiteA.dbo.CauLacBo
+         ├─→ trg_Insert_CauLacBo
+         │   ├─→ IF MaCLB 1-3  → INSERT vào SiteA.dbo.CauLacBo
+         │   └─→ IF MaCLB >= 4 → INSERT vào SiteB.dbo.CauLacBo
          │
-         ├─→ trg_Update_CauLacBo  ──→  UPDATE vào SiteA.dbo.CauLacBo
+         ├─→ trg_Update_CauLacBo
+         │   ├─→ UPDATE SiteA.dbo.CauLacBo (nếu có)
+         │   └─→ UPDATE SiteB.dbo.CauLacBo (nếu có)
          │
-         └─→ trg_Delete_CauLacBo  ──→  DELETE từ SiteA.dbo.CauLacBo
+         └─→ trg_Delete_CauLacBo
+             ├─→ DELETE từ SiteA.dbo.CauLacBo
+             └─→ DELETE từ SiteB.dbo.CauLacBo
 
 
-    VIEW: vw_SinhVien
+    VIEW: vw_SinhVien (UNION ALL từ Site A + Site B)
          │
-         ├─→ trg_Insert_SinhVien  ──→  INSERT vào SiteB.dbo.SinhVien
+         ├─→ trg_Insert_SinhVien
+         │   ├─→ IF SV001-005 → INSERT vào SiteA.dbo.SinhVien
+         │   └─→ IF SV006+    → INSERT vào SiteB.dbo.SinhVien
          │
-         ├─→ trg_Update_SinhVien  ──→  UPDATE vào SiteB.dbo.SinhVien
+         ├─→ trg_Update_SinhVien
+         │   ├─→ UPDATE SiteA.dbo.SinhVien (nếu có)
+         │   └─→ UPDATE SiteB.dbo.SinhVien (nếu có)
          │
-         └─→ trg_Delete_SinhVien  ──→  DELETE từ SiteB.dbo.SinhVien
+         └─→ trg_Delete_SinhVien
+             ├─→ DELETE từ SiteA.dbo.SinhVien
+             └─→ DELETE từ SiteB.dbo.SinhVien
 ```
 
 ## 5. Ví dụ truy vấn phân tán
