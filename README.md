@@ -1,4 +1,4 @@
-# Hệ thống quản lý câu lạc bộ và lớp năng khiếu
+# Mô Phỏng Hệ thống quản lý câu lạc bộ và lớp năng khiếu
 
 Đồ án môn học: Cơ sở dữ liệu phân tán
 
