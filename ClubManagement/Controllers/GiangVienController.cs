@@ -34,14 +34,31 @@ namespace ClubManagement.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(GiangVien model)
         {
+            // Xóa validation cho MaGV vì sẽ tự động sinh
+            ModelState.Remove("MaGV");
+            
             if (ModelState.IsValid)
             {
                 using var conn = _dbContext.GetConnection();
+                
+                // Lấy số thứ tự lớn nhất từ mã GV (GV1, GV2, ...)
+                var maxGV = await conn.QueryFirstOrDefaultAsync<string>(
+                    "SELECT TOP 1 MaGV FROM vw_GiangVien ORDER BY CAST(SUBSTRING(MaGV, 3, LEN(MaGV)) AS INT) DESC");
+                
+                int nextNumber = 1;
+                if (!string.IsNullOrEmpty(maxGV))
+                {
+                    nextNumber = int.Parse(maxGV.Substring(2)) + 1;
+                }
+                model.MaGV = $"GV{nextNumber}";
+                
                 await conn.ExecuteAsync(
                     "INSERT INTO vw_GiangVien (MaGV, HoTenGV, MaCLB) VALUES (@MaGV, @HoTenGV, @MaCLB)",
                     model);
                 return RedirectToAction(nameof(Index));
             }
+            
+            ViewBag.CauLacBos = await _dbContext.GetConnection().QueryAsync<CauLacBo>("SELECT * FROM vw_CauLacBo");
             return View(model);
         }
 

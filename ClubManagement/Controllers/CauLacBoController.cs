@@ -29,9 +29,17 @@ namespace ClubManagement.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CauLacBo model)
         {
+            // Xóa validation cho MaCLB vì sẽ tự động sinh
+            ModelState.Remove("MaCLB");
+            
             if (ModelState.IsValid)
             {
                 using var conn = _dbContext.GetConnection();
+                
+                // Lấy mã CLB lớn nhất hiện tại
+                var maxId = await conn.ExecuteScalarAsync<int?>("SELECT MAX(MaCLB) FROM vw_CauLacBo") ?? 0;
+                model.MaCLB = maxId + 1;
+                
                 await conn.ExecuteAsync(
                     "INSERT INTO vw_CauLacBo (MaCLB, TenCLB, TenKhoa) VALUES (@MaCLB, @TenCLB, @TenKhoa)",
                     model);

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\juven\\Desktop\\ClubManagement\\ClubManagement\\ClubManagement.csproj": {}
+    "C:\\Users\\juven\\Desktop\\ClubManagementCSDLPT\\ClubManagement\\ClubManagement.csproj": {}
   },
   "projects": {
-    "C:\\Users\\juven\\Desktop\\ClubManagement\\ClubManagement\\ClubManagement.csproj": {
+    "C:\\Users\\juven\\Desktop\\ClubManagementCSDLPT\\ClubManagement\\ClubManagement.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\juven\\Desktop\\ClubManagement\\ClubManagement\\ClubManagement.csproj",
+        "projectUniqueName": "C:\\Users\\juven\\Desktop\\ClubManagementCSDLPT\\ClubManagement\\ClubManagement.csproj",
         "projectName": "ClubManagement",
-        "projectPath": "C:\\Users\\juven\\Desktop\\ClubManagement\\ClubManagement\\ClubManagement.csproj",
+        "projectPath": "C:\\Users\\juven\\Desktop\\ClubManagementCSDLPT\\ClubManagement\\ClubManagement.csproj",
         "packagesPath": "C:\\Users\\juven\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\juven\\Desktop\\ClubManagement\\ClubManagement\\obj\\",
+        "outputPath": "C:\\Users\\juven\\Desktop\\ClubManagementCSDLPT\\ClubManagement\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

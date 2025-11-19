@@ -9,121 +9,121 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = ClubManagement
 build_property.RootNamespace = ClubManagement
-build_property.ProjectDir = C:\Users\juven\Desktop\ClubManagement\ClubManagement\
+build_property.ProjectDir = C:\Users\juven\Desktop\ClubManagementCSDLPT\ClubManagement\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\juven\Desktop\ClubManagement\ClubManagement
+build_property.MSBuildProjectDirectory = C:\Users\juven\Desktop\ClubManagementCSDLPT\ClubManagement
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/juven/Desktop/ClubManagement/ClubManagement/Views/BienLai/Create.cshtml]
+[C:/Users/juven/Desktop/ClubManagementCSDLPT/ClubManagement/Views/BienLai/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmllbkxhaVxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/juven/Desktop/ClubManagement/ClubManagement/Views/BienLai/Edit.cshtml]
+[C:/Users/juven/Desktop/ClubManagementCSDLPT/ClubManagement/Views/BienLai/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmllbkxhaVxFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/juven/Desktop/ClubManagement/ClubManagement/Views/BienLai/Index.cshtml]
+[C:/Users/juven/Desktop/ClubManagementCSDLPT/ClubManagement/Views/BienLai/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmllbkxhaVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/juven/Desktop/ClubManagement/ClubManagement/Views/CauLacBo/Create.cshtml]
+[C:/Users/juven/Desktop/ClubManagementCSDLPT/ClubManagement/Views/CauLacBo/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F1TGFjQm9cQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/juven/Desktop/ClubManagement/ClubManagement/Views/CauLacBo/Edit.cshtml]
+[C:/Users/juven/Desktop/ClubManagementCSDLPT/ClubManagement/Views/CauLacBo/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F1TGFjQm9cRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/juven/Desktop/ClubManagement/ClubManagement/Views/CauLacBo/Index.cshtml]
+[C:/Users/juven/Desktop/ClubManagementCSDLPT/ClubManagement/Views/CauLacBo/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F1TGFjQm9cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/juven/Desktop/ClubManagement/ClubManagement/Views/GiangVien/Create.cshtml]
+[C:/Users/juven/Desktop/ClubManagementCSDLPT/ClubManagement/Views/GiangVien/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2lhbmdWaWVuXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/juven/Desktop/ClubManagement/ClubManagement/Views/GiangVien/Edit.cshtml]
+[C:/Users/juven/Desktop/ClubManagementCSDLPT/ClubManagement/Views/GiangVien/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2lhbmdWaWVuXEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/juven/Desktop/ClubManagement/ClubManagement/Views/GiangVien/Index.cshtml]
+[C:/Users/juven/Desktop/ClubManagementCSDLPT/ClubManagement/Views/GiangVien/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2lhbmdWaWVuXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/juven/Desktop/ClubManagement/ClubManagement/Views/Home/Index.cshtml]
+[C:/Users/juven/Desktop/ClubManagementCSDLPT/ClubManagement/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/juven/Desktop/ClubManagement/ClubManagement/Views/Home/Privacy.cshtml]
+[C:/Users/juven/Desktop/ClubManagementCSDLPT/ClubManagement/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/juven/Desktop/ClubManagement/ClubManagement/Views/LopNangKhieu/Create.cshtml]
+[C:/Users/juven/Desktop/ClubManagementCSDLPT/ClubManagement/Views/LopNangKhieu/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9wTmFuZ0toaWV1XENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/juven/Desktop/ClubManagement/ClubManagement/Views/LopNangKhieu/Edit.cshtml]
+[C:/Users/juven/Desktop/ClubManagementCSDLPT/ClubManagement/Views/LopNangKhieu/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9wTmFuZ0toaWV1XEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/juven/Desktop/ClubManagement/ClubManagement/Views/LopNangKhieu/Index.cshtml]
+[C:/Users/juven/Desktop/ClubManagementCSDLPT/ClubManagement/Views/LopNangKhieu/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9wTmFuZ0toaWV1XEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/juven/Desktop/ClubManagement/ClubManagement/Views/Shared/Error.cshtml]
+[C:/Users/juven/Desktop/ClubManagementCSDLPT/ClubManagement/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/juven/Desktop/ClubManagement/ClubManagement/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/juven/Desktop/ClubManagementCSDLPT/ClubManagement/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/juven/Desktop/ClubManagement/ClubManagement/Views/SinhVien/Create.cshtml]
+[C:/Users/juven/Desktop/ClubManagementCSDLPT/ClubManagement/Views/SinhVien/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2luaFZpZW5cQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/juven/Desktop/ClubManagement/ClubManagement/Views/SinhVien/Edit.cshtml]
+[C:/Users/juven/Desktop/ClubManagementCSDLPT/ClubManagement/Views/SinhVien/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2luaFZpZW5cRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/juven/Desktop/ClubManagement/ClubManagement/Views/SinhVien/Index.cshtml]
+[C:/Users/juven/Desktop/ClubManagementCSDLPT/ClubManagement/Views/SinhVien/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2luaFZpZW5cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/juven/Desktop/ClubManagement/ClubManagement/Views/TruyVan/Index.cshtml]
+[C:/Users/juven/Desktop/ClubManagementCSDLPT/ClubManagement/Views/TruyVan/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJ1eVZhblxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/juven/Desktop/ClubManagement/ClubManagement/Views/TruyVan/Query1.cshtml]
+[C:/Users/juven/Desktop/ClubManagementCSDLPT/ClubManagement/Views/TruyVan/Query1.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJ1eVZhblxRdWVyeTEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/juven/Desktop/ClubManagement/ClubManagement/Views/TruyVan/Query2.cshtml]
+[C:/Users/juven/Desktop/ClubManagementCSDLPT/ClubManagement/Views/TruyVan/Query2.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJ1eVZhblxRdWVyeTIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/juven/Desktop/ClubManagement/ClubManagement/Views/TruyVan/Query3.cshtml]
+[C:/Users/juven/Desktop/ClubManagementCSDLPT/ClubManagement/Views/TruyVan/Query3.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJ1eVZhblxRdWVyeTMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/juven/Desktop/ClubManagement/ClubManagement/Views/TruyVan/Query4.cshtml]
+[C:/Users/juven/Desktop/ClubManagementCSDLPT/ClubManagement/Views/TruyVan/Query4.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJ1eVZhblxRdWVyeTQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/juven/Desktop/ClubManagement/ClubManagement/Views/_ViewImports.cshtml]
+[C:/Users/juven/Desktop/ClubManagementCSDLPT/ClubManagement/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/juven/Desktop/ClubManagement/ClubManagement/Views/_ViewStart.cshtml]
+[C:/Users/juven/Desktop/ClubManagementCSDLPT/ClubManagement/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/juven/Desktop/ClubManagement/ClubManagement/Views/Shared/_Layout.cshtml]
+[C:/Users/juven/Desktop/ClubManagementCSDLPT/ClubManagement/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-qig08jt5y1

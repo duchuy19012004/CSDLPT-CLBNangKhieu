@@ -6,23 +6,35 @@
 <h2>Sửa thông tin sinh viên</h2>
 
 <form asp-action="Edit" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    
     <div class="form-group">
-        <label asp-for="MaSV">Mã sinh viên</label>
+        <label asp-for="MaSV"></label>
         <input asp-for="MaSV" class="form-control" readonly />
+        <span asp-validation-for="MaSV" class="text-danger"></span>
     </div>
+    
     <div class="form-group">
-        <label asp-for="HoTenSV">Họ tên</label>
+        <label asp-for="HoTenSV"></label>
         <input asp-for="HoTenSV" class="form-control" />
+        <span asp-validation-for="HoTenSV" class="text-danger"></span>
     </div>
+    
     <div class="form-group">
-        <label asp-for="MaCLB">Câu lạc bộ</label>
+        <label asp-for="MaCLB"></label>
         <select asp-for="MaCLB" class="form-control">
             @foreach (var clb in ViewBag.CauLacBos)
             {
                 <option value="@clb.MaCLB">@clb.TenCLB</option>
             }
         </select>
+        <span asp-validation-for="MaCLB" class="text-danger"></span>
     </div>
+    
     <button type="submit" class="btn btn-primary">Cập nhật</button>
     <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
 </form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

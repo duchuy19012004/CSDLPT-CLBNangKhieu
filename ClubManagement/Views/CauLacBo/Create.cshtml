@@ -8,18 +8,24 @@
 <div class="card">
     <div class="card-body">
         <form asp-action="Create" method="post">
-            <div class="form-group">
-                <label asp-for="MaCLB"><i class="fas fa-hashtag me-2"></i>Mã câu lạc bộ</label>
-                <input asp-for="MaCLB" class="form-control" type="number" placeholder="Nhập mã câu lạc bộ" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i> Mã câu lạc bộ sẽ được tự động tạo
             </div>
+            
             <div class="form-group">
-                <label asp-for="TenCLB"><i class="fas fa-building me-2"></i>Tên câu lạc bộ</label>
+                <label asp-for="TenCLB"><i class="fas fa-building me-2"></i></label>
                 <input asp-for="TenCLB" class="form-control" placeholder="Nhập tên câu lạc bộ" />
+                <span asp-validation-for="TenCLB" class="text-danger"></span>
             </div>
+            
             <div class="form-group">
-                <label asp-for="TenKhoa"><i class="fas fa-university me-2"></i>Tên khoa</label>
+                <label asp-for="TenKhoa"><i class="fas fa-university me-2"></i></label>
                 <input asp-for="TenKhoa" class="form-control" placeholder="Ví dụ: K1, K2, K3" />
+                <span asp-validation-for="TenKhoa" class="text-danger"></span>
             </div>
+            
             <div class="mt-4">
                 <button type="submit" class="btn btn-primary">
                     <i class="fas fa-save me-2"></i>Lưu
@@ -31,3 +37,7 @@
         </form>
     </div>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

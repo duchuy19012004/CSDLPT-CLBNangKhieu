@@ -6,27 +6,41 @@
 <h2>Sửa thông tin lớp năng khiếu</h2>
 
 <form asp-action="Edit" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    
     <div class="form-group">
-        <label asp-for="MaLop">Mã lớp</label>
+        <label asp-for="MaLop"></label>
         <input asp-for="MaLop" class="form-control" readonly />
+        <span asp-validation-for="MaLop" class="text-danger"></span>
     </div>
+    
     <div class="form-group">
-        <label asp-for="NgayMo">Ngày mở</label>
+        <label asp-for="NgayMo"></label>
         <input asp-for="NgayMo" class="form-control" type="date" />
+        <span asp-validation-for="NgayMo" class="text-danger"></span>
     </div>
+    
     <div class="form-group">
-        <label asp-for="MaGV">Giảng viên</label>
+        <label asp-for="MaGV"></label>
         <select asp-for="MaGV" class="form-control">
             @foreach (var gv in ViewBag.GiangViens)
             {
                 <option value="@gv.MaGV">@gv.HoTenGV</option>
             }
         </select>
+        <span asp-validation-for="MaGV" class="text-danger"></span>
     </div>
+    
     <div class="form-group">
-        <label asp-for="HocPhi">Học phí</label>
+        <label asp-for="HocPhi"></label>
         <input asp-for="HocPhi" class="form-control" type="number" step="1000" />
+        <span asp-validation-for="HocPhi" class="text-danger"></span>
     </div>
+    
     <button type="submit" class="btn btn-primary">Cập nhật</button>
     <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
 </form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -35,14 +35,25 @@ namespace ClubManagement.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(BienLai model)
         {
+            // Xóa validation cho SoBL vì sẽ tự động sinh
+            ModelState.Remove("SoBL");
+            
             if (ModelState.IsValid)
             {
                 using var conn = _dbContext.GetConnection();
+                
+                // Lấy số biên lai lớn nhất hiện tại
+                var maxId = await conn.ExecuteScalarAsync<int?>("SELECT MAX(SoBL) FROM vw_BienLai") ?? 0;
+                model.SoBL = maxId + 1;
+                
                 await conn.ExecuteAsync(
                     "INSERT INTO vw_BienLai (SoBL, Thang, Nam, MaLop, MaSV, SoTien) VALUES (@SoBL, @Thang, @Nam, @MaLop, @MaSV, @SoTien)",
                     model);
                 return RedirectToAction(nameof(Index));
             }
+            
+            ViewBag.LopNangKhieus = await _dbContext.GetConnection().QueryAsync<LopNangKhieu>("SELECT * FROM vw_LopNangKhieu");
+            ViewBag.SinhViens = await _dbContext.GetConnection().QueryAsync<SinhVien>("SELECT * FROM vw_SinhVien");
             return View(model);
         }
 

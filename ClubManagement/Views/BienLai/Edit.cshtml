@@ -6,40 +6,58 @@
 <h2>Sửa thông tin biên lai</h2>
 
 <form asp-action="Edit" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    
     <div class="form-group">
-        <label asp-for="SoBL">Số biên lai</label>
+        <label asp-for="SoBL"></label>
         <input asp-for="SoBL" class="form-control" readonly />
+        <span asp-validation-for="SoBL" class="text-danger"></span>
     </div>
+    
     <div class="form-group">
-        <label asp-for="Thang">Tháng</label>
+        <label asp-for="Thang"></label>
         <input asp-for="Thang" class="form-control" type="number" min="1" max="12" />
+        <span asp-validation-for="Thang" class="text-danger"></span>
     </div>
+    
     <div class="form-group">
-        <label asp-for="Nam">Năm</label>
+        <label asp-for="Nam"></label>
         <input asp-for="Nam" class="form-control" type="number" />
+        <span asp-validation-for="Nam" class="text-danger"></span>
     </div>
+    
     <div class="form-group">
-        <label asp-for="MaLop">Lớp năng khiếu</label>
+        <label asp-for="MaLop"></label>
         <select asp-for="MaLop" class="form-control">
             @foreach (var lop in ViewBag.LopNangKhieus)
             {
                 <option value="@lop.MaLop">Lớp @lop.MaLop</option>
             }
         </select>
+        <span asp-validation-for="MaLop" class="text-danger"></span>
     </div>
+    
     <div class="form-group">
-        <label asp-for="MaSV">Sinh viên</label>
+        <label asp-for="MaSV"></label>
         <select asp-for="MaSV" class="form-control">
             @foreach (var sv in ViewBag.SinhViens)
             {
                 <option value="@sv.MaSV">@sv.HoTenSV</option>
             }
         </select>
+        <span asp-validation-for="MaSV" class="text-danger"></span>
     </div>
+    
     <div class="form-group">
-        <label asp-for="SoTien">Số tiền</label>
+        <label asp-for="SoTien"></label>
         <input asp-for="SoTien" class="form-control" type="number" step="1000" />
+        <span asp-validation-for="SoTien" class="text-danger"></span>
     </div>
+    
     <button type="submit" class="btn btn-primary">Cập nhật</button>
     <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
 </form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
