@@ -1,0 +1,40 @@
+@model IEnumerable<ClubManagement.Models.BienLai>
+@{
+    ViewData["Title"] = "Danh sách biên lai";
+}
+
+<h2>Danh sách biên lai</h2>
+<p>
+    <a asp-action="Create" class="btn btn-primary">Thêm mới</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Số BL</th>
+            <th>Tháng/Năm</th>
+            <th>Mã lớp</th>
+            <th>Sinh viên</th>
+            <th>Số tiền</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.SoBL</td>
+                <td>@item.Thang/@item.Nam</td>
+                <td>@item.MaLop</td>
+                <td>@item.TenSV</td>
+                <td>@item.SoTien.ToString("N0") VNĐ</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.SoBL" class="btn btn-sm btn-warning">Sửa</a>
+                    <form asp-action="Delete" asp-route-id="@item.SoBL" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

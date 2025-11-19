@@ -1,0 +1,35 @@
+@model IEnumerable<ClubManagement.Models.LopNangKhieu>
+@{
+    ViewData["Title"] = "Truy vấn 3";
+}
+
+<h2>Truy vấn 3: Các lớp mở trong tháng 08 năm 2012</h2>
+
+<table class="table table-striped mt-4">
+    <thead>
+        <tr>
+            <th>Mã lớp</th>
+            <th>Ngày mở</th>
+            <th>Mã giảng viên</th>
+            <th>Học phí</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.MaLop</td>
+                <td>@item.NgayMo.ToString("dd/MM/yyyy")</td>
+                <td>@item.MaGV</td>
+                <td>@item.HocPhi.ToString("N0") VNĐ</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">Không có lớp nào mở trong tháng 08/2012</div>
+}
+
+<a asp-action="Index" class="btn btn-secondary mt-3">Quay lại</a>

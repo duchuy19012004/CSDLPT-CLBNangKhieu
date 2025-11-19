@@ -1,0 +1,85 @@
+﻿@{
+    ViewData["Title"] = "Trang chủ";
+}
+
+<div class="text-center mb-5">
+    <h1 class="display-4">
+        <i class="fas fa-university me-3"></i>Hệ thống quản lý câu lạc bộ và lớp năng khiếu
+    </h1>
+    <p class="lead">
+        <i class="fas fa-database me-2"></i>Cơ sở dữ liệu phân tán - Mô hình toàn cục
+    </p>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-database me-2"></i>Quản lý dữ liệu
+                </h5>
+                <p class="card-text">Thực hiện các thao tác CRUD trên dữ liệu toàn cục</p>
+                <div class="d-grid gap-2">
+                    <a asp-controller="CauLacBo" asp-action="Index" class="btn btn-primary">
+                        <i class="fas fa-building me-2"></i>Câu lạc bộ
+                    </a>
+                    <a asp-controller="GiangVien" asp-action="Index" class="btn btn-primary">
+                        <i class="fas fa-chalkboard-teacher me-2"></i>Giảng viên
+                    </a>
+                    <a asp-controller="SinhVien" asp-action="Index" class="btn btn-primary">
+                        <i class="fas fa-user-graduate me-2"></i>Sinh viên
+                    </a>
+                    <a asp-controller="LopNangKhieu" asp-action="Index" class="btn btn-primary">
+                        <i class="fas fa-book-reader me-2"></i>Lớp năng khiếu
+                    </a>
+                    <a asp-controller="BienLai" asp-action="Index" class="btn btn-primary">
+                        <i class="fas fa-receipt me-2"></i>Biên lai
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-search me-2"></i>Truy vấn toàn cục
+                </h5>
+                <p class="card-text">Thực hiện các truy vấn đặc biệt trên dữ liệu phân tán</p>
+                <a asp-controller="TruyVan" asp-action="Index" class="btn btn-success btn-lg w-100">
+                    <i class="fas fa-chart-line me-2"></i>Xem truy vấn
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-info-circle me-2"></i>Về hệ thống
+                </h5>
+                <div class="row">
+                    <div class="col-md-4 text-center mb-3">
+                        <i class="fas fa-server fa-3x text-primary mb-3"></i>
+                        <h6>Phân tán dữ liệu</h6>
+                        <p class="text-muted small">Dữ liệu được phân bố trên nhiều site (SiteA, SiteB)</p>
+                    </div>
+                    <div class="col-md-4 text-center mb-3">
+                        <i class="fas fa-eye-slash fa-3x text-success mb-3"></i>
+                        <h6>Tính trong suốt</h6>
+                        <p class="text-muted small">Người dùng không cần biết dữ liệu lưu ở đâu</p>
+                    </div>
+                    <div class="col-md-4 text-center mb-3">
+                        <i class="fas fa-bolt fa-3x text-warning mb-3"></i>
+                        <h6>Hiệu năng cao</h6>
+                        <p class="text-muted small">Truy vấn nhanh với view và trigger tối ưu</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

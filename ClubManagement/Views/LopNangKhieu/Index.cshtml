@@ -1,0 +1,38 @@
+@model IEnumerable<ClubManagement.Models.LopNangKhieu>
+@{
+    ViewData["Title"] = "Danh sách lớp năng khiếu";
+}
+
+<h2>Danh sách lớp năng khiếu</h2>
+<p>
+    <a asp-action="Create" class="btn btn-primary">Thêm mới</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Mã lớp</th>
+            <th>Ngày mở</th>
+            <th>Giảng viên</th>
+            <th>Học phí</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.MaLop</td>
+                <td>@item.NgayMo.ToString("dd/MM/yyyy")</td>
+                <td>@item.TenGV</td>
+                <td>@item.HocPhi.ToString("N0") VNĐ</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.MaLop" class="btn btn-sm btn-warning">Sửa</a>
+                    <form asp-action="Delete" asp-route-id="@item.MaLop" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

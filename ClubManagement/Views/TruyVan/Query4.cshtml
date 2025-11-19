@@ -1,0 +1,45 @@
+@{
+    ViewData["Title"] = "Truy vấn 4";
+}
+
+<h2>Truy vấn 4: Cập nhật khoa của câu lạc bộ</h2>
+
+<div class="alert alert-info mt-4">
+    <p>Thao tác này sẽ chuyển câu lạc bộ có mã 5 từ khoa K3 sang khoa K2</p>
+</div>
+
+<h4>Danh sách câu lạc bộ hiện tại:</h4>
+<table class="table table-striped mt-3">
+    <thead>
+        <tr>
+            <th>Mã CLB</th>
+            <th>Tên câu lạc bộ</th>
+            <th>Tên khoa</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var clb in ViewBag.CauLacBos)
+        {
+            <tr class="@(clb.MaCLB == 5 ? "table-warning" : "")">
+                <td>@clb.MaCLB</td>
+                <td>@clb.TenCLB</td>
+                <td>@clb.TenKhoa</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<form asp-action="Query4Execute" method="post" class="mt-3">
+    <button type="submit" class="btn btn-primary" onclick="return confirm('Bạn có chắc muốn thực hiện cập nhật?')">
+        Thực hiện cập nhật
+    </button>
+</form>
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-success mt-4">
+        @ViewBag.Message
+    </div>
+}
+
+<a asp-action="Index" class="btn btn-secondary mt-3">Quay lại</a>

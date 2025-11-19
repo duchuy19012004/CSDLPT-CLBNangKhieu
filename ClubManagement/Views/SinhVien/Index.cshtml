@@ -1,0 +1,36 @@
+@model IEnumerable<ClubManagement.Models.SinhVien>
+@{
+    ViewData["Title"] = "Danh sách sinh viên";
+}
+
+<h2>Danh sách sinh viên</h2>
+<p>
+    <a asp-action="Create" class="btn btn-primary">Thêm mới</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Mã SV</th>
+            <th>Họ tên</th>
+            <th>Câu lạc bộ</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.MaSV</td>
+                <td>@item.HoTenSV</td>
+                <td>@item.TenCLB</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.MaSV" class="btn btn-sm btn-warning">Sửa</a>
+                    <form asp-action="Delete" asp-route-id="@item.MaSV" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

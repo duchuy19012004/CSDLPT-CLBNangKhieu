@@ -1,0 +1,28 @@
+@model ClubManagement.Models.SinhVien
+@{
+    ViewData["Title"] = "Thêm sinh viên";
+}
+
+<h2>Thêm sinh viên mới</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="MaSV">Mã sinh viên</label>
+        <input asp-for="MaSV" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="HoTenSV">Họ tên</label>
+        <input asp-for="HoTenSV" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="MaCLB">Câu lạc bộ</label>
+        <select asp-for="MaCLB" class="form-control">
+            @foreach (var clb in ViewBag.CauLacBos)
+            {
+                <option value="@clb.MaCLB">@clb.TenCLB</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Lưu</button>
+    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+</form>

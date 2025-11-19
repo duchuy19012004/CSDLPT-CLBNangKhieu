@@ -1,0 +1,34 @@
+@model IEnumerable<ClubManagement.Models.BienLai>
+@{
+    ViewData["Title"] = "Truy vấn 1";
+}
+
+<h2>Truy vấn 1: Biên lai của các lớp do giảng viên GV5 giảng dạy</h2>
+
+<table class="table table-striped mt-4">
+    <thead>
+        <tr>
+            <th>Số biên lai</th>
+            <th>Tháng</th>
+            <th>Năm</th>
+            <th>Mã lớp</th>
+            <th>Mã sinh viên</th>
+            <th>Số tiền</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.SoBL</td>
+                <td>@item.Thang</td>
+                <td>@item.Nam</td>
+                <td>@item.MaLop</td>
+                <td>@item.MaSV</td>
+                <td>@item.SoTien.ToString("N0") VNĐ</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Index" class="btn btn-secondary mt-3">Quay lại</a>

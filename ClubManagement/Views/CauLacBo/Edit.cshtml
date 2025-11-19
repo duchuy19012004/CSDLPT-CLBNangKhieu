@@ -1,0 +1,23 @@
+@model ClubManagement.Models.CauLacBo
+@{
+    ViewData["Title"] = "Sửa câu lạc bộ";
+}
+
+<h2>Sửa thông tin câu lạc bộ</h2>
+
+<form asp-action="Edit" method="post">
+    <div class="form-group">
+        <label asp-for="MaCLB">Mã câu lạc bộ</label>
+        <input asp-for="MaCLB" class="form-control" readonly />
+    </div>
+    <div class="form-group">
+        <label asp-for="TenCLB">Tên câu lạc bộ</label>
+        <input asp-for="TenCLB" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="TenKhoa">Tên khoa</label>
+        <input asp-for="TenKhoa" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Cập nhật</button>
+    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+</form>

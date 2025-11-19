@@ -1,0 +1,68 @@
+@{
+    ViewData["Title"] = "Truy vấn 2";
+}
+
+<h2><i class="fas fa-calculator me-2"></i>Truy vấn 2: Tổng học phí sinh viên đóng cho một lớp</h2>
+
+<div class="card mt-4">
+    <div class="card-body">
+        <form asp-action="Query2" method="post">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label><i class="fas fa-book-reader me-2"></i>Chọn lớp năng khiếu</label>
+                        <select name="maLop" class="form-control" required>
+                            <option value="">-- Chọn lớp --</option>
+                            @foreach (var lop in ViewBag.LopNangKhieus)
+                            {
+                                <option value="@lop.MaLop" selected="@(ViewBag.MaLop != null && ViewBag.MaLop == lop.MaLop)">
+                                    Lớp @lop.MaLop - GV: @lop.MaGV - Học phí: @lop.HocPhi.ToString("N0") VNĐ
+                                </option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label><i class="fas fa-user-graduate me-2"></i>Chọn sinh viên</label>
+                        <select name="maSV" class="form-control" required>
+                            <option value="">-- Chọn sinh viên --</option>
+                            @foreach (var sv in ViewBag.SinhViens)
+                            {
+                                <option value="@sv.MaSV" selected="@(ViewBag.MaSV != null && ViewBag.MaSV == sv.MaSV)">
+                                    @sv.MaSV - @sv.HoTenSV
+                                </option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-3">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-calculator me-2"></i>Tính tổng
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (ViewBag.TongTien != null)
+{
+    decimal tongTien = ViewBag.TongTien;
+    <div class="alert alert-success mt-4">
+        <h4><i class="fas fa-check-circle me-2"></i>Kết quả:</h4>
+        <p class="mb-0">
+            Sinh viên <strong>@ViewBag.MaSV</strong> đã đóng tổng cộng 
+            <strong class="text-danger" style="font-size: 1.3rem;">@tongTien.ToString("N0") VNĐ</strong> 
+            cho lớp <strong>@ViewBag.MaLop</strong>
+        </p>
+    </div>
+}
+
+<div class="mt-4">
+    <a asp-action="Index" class="btn btn-secondary">
+        <i class="fas fa-arrow-left me-2"></i>Quay lại
+    </a>
+</div>

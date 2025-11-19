@@ -1,0 +1,32 @@
+@model ClubManagement.Models.LopNangKhieu
+@{
+    ViewData["Title"] = "Thêm lớp năng khiếu";
+}
+
+<h2>Thêm lớp năng khiếu mới</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="MaLop">Mã lớp</label>
+        <input asp-for="MaLop" class="form-control" type="number" />
+    </div>
+    <div class="form-group">
+        <label asp-for="NgayMo">Ngày mở</label>
+        <input asp-for="NgayMo" class="form-control" type="date" />
+    </div>
+    <div class="form-group">
+        <label asp-for="MaGV">Giảng viên</label>
+        <select asp-for="MaGV" class="form-control">
+            @foreach (var gv in ViewBag.GiangViens)
+            {
+                <option value="@gv.MaGV">@gv.HoTenGV</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="HocPhi">Học phí</label>
+        <input asp-for="HocPhi" class="form-control" type="number" step="1000" />
+    </div>
+    <button type="submit" class="btn btn-primary">Lưu</button>
+    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+</form>

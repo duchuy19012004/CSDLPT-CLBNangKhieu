@@ -1,0 +1,45 @@
+@model ClubManagement.Models.BienLai
+@{
+    ViewData["Title"] = "Thêm biên lai";
+}
+
+<h2>Thêm biên lai mới</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="SoBL">Số biên lai</label>
+        <input asp-for="SoBL" class="form-control" type="number" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Thang">Tháng</label>
+        <input asp-for="Thang" class="form-control" type="number" min="1" max="12" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Nam">Năm</label>
+        <input asp-for="Nam" class="form-control" type="number" />
+    </div>
+    <div class="form-group">
+        <label asp-for="MaLop">Lớp năng khiếu</label>
+        <select asp-for="MaLop" class="form-control">
+            @foreach (var lop in ViewBag.LopNangKhieus)
+            {
+                <option value="@lop.MaLop">Lớp @lop.MaLop</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="MaSV">Sinh viên</label>
+        <select asp-for="MaSV" class="form-control">
+            @foreach (var sv in ViewBag.SinhViens)
+            {
+                <option value="@sv.MaSV">@sv.HoTenSV</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="SoTien">Số tiền</label>
+        <input asp-for="SoTien" class="form-control" type="number" step="1000" />
+    </div>
+    <button type="submit" class="btn btn-primary">Lưu</button>
+    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+</form>
