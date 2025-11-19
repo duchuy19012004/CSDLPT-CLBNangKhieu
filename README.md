@@ -24,7 +24,7 @@
 
 ### 2. Setup Database
 
-Chạy file `DatabaseSetup.sql` trong SQL Server Management Studio để:
+Chạy file `DatabaseSetup_Horizontal.sql` trong SQL Server Management Studio để:
 
 - Tạo 3 database (ClubManagementGlobal, SiteA, SiteB)
 - Tạo các bảng thật tại các site
