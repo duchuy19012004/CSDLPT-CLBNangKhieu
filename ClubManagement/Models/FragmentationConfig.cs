@@ -4,14 +4,14 @@ namespace ClubManagement.Models
 {
     public class FragmentationConfig
     {
-        [Display(Name = "Tên bảng")]
-        [Required(ErrorMessage = "Tên bảng là bắt buộc")]
-        public string TableName { get; set; } = string.Empty;
+        [Display(Name = "Khóa cấu hình")]
+        [Required(ErrorMessage = "Khóa cấu hình là bắt buộc")]
+        public string ConfigKey { get; set; } = string.Empty;
 
-        [Display(Name = "Ngưỡng phân mảnh")]
-        [Required(ErrorMessage = "Ngưỡng là bắt buộc")]
-        [Range(1, 10000, ErrorMessage = "Ngưỡng phải từ 1 đến 10,000")]
-        public int ThresholdValue { get; set; }
+        [Display(Name = "Giá trị")]
+        [Required(ErrorMessage = "Giá trị là bắt buộc")]
+        [StringLength(200, ErrorMessage = "Giá trị không được quá 200 ký tự")]
+        public string ConfigValue { get; set; } = string.Empty;
 
         [Display(Name = "Mô tả")]
         public string? Description { get; set; }

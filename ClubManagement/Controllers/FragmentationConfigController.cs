@@ -19,23 +19,23 @@ namespace ClubManagement.Controllers
         {
             using var conn = _dbContext.GetConnection();
             var configs = await conn.QueryAsync<FragmentationConfig>(
-                "SELECT * FROM FragmentationConfig ORDER BY TableName");
+                "SELECT * FROM FragmentationConfig ORDER BY ConfigKey");
             return View(configs);
         }
 
-        // Form chỉnh sửa ngưỡng
-        public async Task<IActionResult> Edit(string tableName)
+        // Form chỉnh sửa cấu hình
+        public async Task<IActionResult> Edit(string configKey)
         {
             using var conn = _dbContext.GetConnection();
             var config = await conn.QueryFirstOrDefaultAsync<FragmentationConfig>(
-                "SELECT * FROM FragmentationConfig WHERE TableName = @TableName",
-                new { TableName = tableName });
+                "SELECT * FROM FragmentationConfig WHERE ConfigKey = @ConfigKey",
+                new { ConfigKey = configKey });
             
             if (config == null) return NotFound();
             return View(config);
         }
 
-        // Cập nhật ngưỡng
+        // Cập nhật cấu hình
         [HttpPost]
         public async Task<IActionResult> Edit(FragmentationConfig model)
         {
@@ -44,13 +44,13 @@ namespace ClubManagement.Controllers
                 using var conn = _dbContext.GetConnection();
                 await conn.ExecuteAsync(
                     @"UPDATE FragmentationConfig 
-                      SET ThresholdValue = @ThresholdValue, 
+                      SET ConfigValue = @ConfigValue, 
                           Description = @Description,
                           LastModified = GETDATE()
-                      WHERE TableName = @TableName",
+                      WHERE ConfigKey = @ConfigKey",
                     model);
                 
-                TempData["SuccessMessage"] = $"Đã cập nhật ngưỡng cho bảng {model.TableName}";
+                TempData["SuccessMessage"] = $"Đã cập nhật cấu hình {model.ConfigKey}";
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
