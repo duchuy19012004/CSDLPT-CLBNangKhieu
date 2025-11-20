@@ -11,18 +11,25 @@
 - **Mô hình**: Toàn cục duy nhất với phân mảnh ngang (Horizontal Fragmentation)
 - **Database**: SQL Server với 3 database:
   - `ClubManagementGlobal`: Database toàn cục chứa các view (sử dụng UNION ALL)
-  - `SiteA`: Chứa dữ liệu với ID nhỏ
-    - CauLacBo (MaCLB 1-3)
-    - GiangVien (GV1-GV5)
-    - SinhVien (SV001-SV005)
-    - LopNangKhieu (MaLop 1-3)
-    - BienLai (SoBL 1-4)
-  - `SiteB`: Chứa dữ liệu với ID lớn
-    - CauLacBo (MaCLB 4+)
-    - GiangVien (GV6+)
-    - SinhVien (SV006+)
-    - LopNangKhieu (MaLop 4+)
-    - BienLai (SoBL 5+)
+  - `SiteA`: Chứa dữ liệu phân mảnh A
+  - `SiteB`: Chứa dữ liệu phân mảnh B
+
+### Phân bổ dữ liệu (với DatabaseSetup_AttributeBased.sql):
+
+- **Site A**: Câu lạc bộ thuộc khoa K1, K2 và dữ liệu liên quan
+
+  - CauLacBo (TenKhoa = K1, K2)
+  - GiangVien (thuộc các CLB ở Site A)
+  - SinhVien (thuộc các CLB ở Site A)
+  - LopNangKhieu (do GV ở Site A giảng dạy)
+  - BienLai (của các lớp ở Site A)
+
+- **Site B**: Câu lạc bộ thuộc khoa K3, K4, K5 và dữ liệu liên quan
+  - CauLacBo (TenKhoa = K3, K4, K5)
+  - GiangVien (thuộc các CLB ở Site B)
+  - SinhVien (thuộc các CLB ở Site B)
+  - LopNangKhieu (do GV ở Site B giảng dạy)
+  - BienLai (của các lớp ở Site B)
 
 ## Cài đặt
 
@@ -34,30 +41,28 @@
 
 ### 2. Setup Database
 
-Chọn 1 trong 2 file SQL để chạy trong SQL Server Management Studio:
+Chạy file `DatabaseSetup_AttributeBased.sql` trong SQL Server Management Studio để:
 
-#### Phương án 1: Ngưỡng cố định (Đơn giản)
+- Tạo 3 database (ClubManagementGlobal, SiteA, SiteB)
+- Tạo các bảng thật tại các site
+- Tạo các view toàn cục với UNION ALL
+- Tạo các trigger INSTEAD OF với logic phân mảnh theo thuộc tính
+- Thêm dữ liệu mẫu
 
-Chạy file `DatabaseSetup_Horizontal.sql`:
+**Logic phân mảnh (Derived Horizontal Fragmentation)**:
 
-- Ngưỡng hard-code: Site A (1-3), Site B (4+)
-- Phù hợp cho demo và học tập
+- **CauLacBo**: Phân theo TenKhoa
+  - Site A: K1, K2
+  - Site B: K3, K4, K5
+- **GiangVien, SinhVien**: Phân theo MaCLB (cùng site với CauLacBo)
+- **LopNangKhieu**: Phân theo MaGV (cùng site với GiangVien)
+- **BienLai**: Phân theo MaLop (cùng site với LopNangKhieu)
 
-#### Phương án 2: Ngưỡng linh hoạt (Khuyến nghị)
+**Ưu điểm**:
 
-Chạy file `DatabaseSetup_Configurable.sql`:
-
-- Ngưỡng mặc định: Site A (1-50), Site B (51+)
-- Admin có thể thay đổi ngưỡng qua Web UI
-- Có trang thống kê phân bổ dữ liệu
-
-Cả 2 file đều tạo:
-
-- 3 database (ClubManagementGlobal, SiteA, SiteB)
-- Các bảng thật tại các site
-- Các view toàn cục với UNION ALL
-- Các trigger INSTEAD OF
-- Dữ liệu mẫu
+- ID tự động tăng không bị giới hạn
+- Dữ liệu liên quan nằm cùng site (data locality)
+- Phân bổ cân bằng theo nghiệp vụ
 
 ### 3. Cấu hình Connection String
 
@@ -91,9 +96,9 @@ Truy cập: `https://localhost:5001` hoặc `http://localhost:5000`
 4. **Lớp năng khiếu**: Thêm, sửa, xóa, xem danh sách
 5. **Biên lai**: Thêm, sửa, xóa, xem danh sách
 
-### Quản lý phân mảnh (Chỉ với DatabaseSetup_Configurable.sql)
+### Quản lý phân mảnh
 
-1. **Cấu hình ngưỡng**: Xem và chỉnh sửa ngưỡng phân mảnh cho từng bảng
+1. **Cấu hình khoa**: Xem và chỉnh sửa danh sách khoa thuộc mỗi site (trong bảng FragmentationConfig)
 2. **Thống kê phân bổ**: Xem biểu đồ phân bổ dữ liệu giữa Site A và Site B
 
 ### Truy vấn toàn cục
@@ -106,7 +111,7 @@ Truy cập: `https://localhost:5001` hoặc `http://localhost:5000`
 ## Mức trong suốt
 
 - **Trong suốt phân mảnh**: Người dùng thao tác trên view toàn cục (UNION ALL) như thể chỉ có một bảng
-- **Trong suốt vị trí**: Không cần biết dữ liệu lưu ở site nào, trigger tự động định tuyến dựa trên ID
+- **Trong suốt vị trí**: Không cần biết dữ liệu lưu ở site nào, trigger tự động định tuyến dựa trên thuộc tính (TenKhoa, MaCLB, MaGV, MaLop)
 - **Trong suốt sao chép**: View UNION ALL tự động kết hợp dữ liệu từ cả 2 site
 
 ## Công nghệ sử dụng
