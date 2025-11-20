@@ -5,7 +5,6 @@ namespace ClubManagement.Models
     public class LopNangKhieu
     {
         [Display(Name = "Mã lớp")]
-        [Required(ErrorMessage = "Mã lớp là bắt buộc")]
         [Range(1, int.MaxValue, ErrorMessage = "Mã lớp phải lớn hơn 0")]
         public int MaLop { get; set; }
 
@@ -15,8 +14,8 @@ namespace ClubManagement.Models
         public DateTime NgayMo { get; set; }
 
         [Display(Name = "Mã giảng viên")]
-        [Required(ErrorMessage = "Mã giảng viên là bắt buộc")]
-        [StringLength(10, MinimumLength = 2, ErrorMessage = "Mã giảng viên phải từ 2-10 ký tự")]
+        [Required(ErrorMessage = "Vui lòng chọn giảng viên")]
+        [StringLength(10, ErrorMessage = "Mã giảng viên không hợp lệ")]
         public string MaGV { get; set; } = string.Empty;
 
         [Display(Name = "Học phí")]

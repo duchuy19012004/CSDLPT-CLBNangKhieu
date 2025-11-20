@@ -5,7 +5,6 @@ namespace ClubManagement.Models
     public class SinhVien
     {
         [Display(Name = "Mã sinh viên")]
-        [Required(ErrorMessage = "Mã sinh viên là bắt buộc")]
         [StringLength(10, MinimumLength = 3, ErrorMessage = "Mã sinh viên phải từ 3-10 ký tự")]
         [RegularExpression(@"^SV\d+$", ErrorMessage = "Mã sinh viên phải có định dạng SV theo sau là số (VD: SV001, SV100)")]
         public string MaSV { get; set; } = string.Empty;

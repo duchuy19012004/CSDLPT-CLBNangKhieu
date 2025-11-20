@@ -5,7 +5,6 @@ namespace ClubManagement.Models
     public class GiangVien
     {
         [Display(Name = "Mã giảng viên")]
-        [Required(ErrorMessage = "Mã giảng viên là bắt buộc")]
         [StringLength(10, MinimumLength = 2, ErrorMessage = "Mã giảng viên phải từ 2-10 ký tự")]
         [RegularExpression(@"^GV\d+$", ErrorMessage = "Mã giảng viên phải có định dạng GV theo sau là số (VD: GV1, GV10)")]
         public string MaGV { get; set; } = string.Empty;

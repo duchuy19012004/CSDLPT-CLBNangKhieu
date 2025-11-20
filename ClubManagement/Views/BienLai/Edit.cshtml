@@ -31,14 +31,14 @@
         <select asp-for="MaLop" class="form-control">
             @foreach (var lop in ViewBag.LopNangKhieus)
             {
-                <option value="@lop.MaLop">Lớp @lop.MaLop</option>
+                <option value="@lop.MaLop">Lớp @lop.MaLop - Học phí: @lop.HocPhi.ToString("N0") VNĐ</option>
             }
         </select>
         <span asp-validation-for="MaLop" class="text-danger"></span>
     </div>
     
     <div class="form-group">
-        <label asp-for="MaSV"></label>
+        <label for="MaSV">Tên sinh viên</label>
         <select asp-for="MaSV" class="form-control">
             @foreach (var sv in ViewBag.SinhViens)
             {

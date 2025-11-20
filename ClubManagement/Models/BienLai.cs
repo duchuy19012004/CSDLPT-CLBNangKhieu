@@ -5,7 +5,6 @@ namespace ClubManagement.Models
     public class BienLai
     {
         [Display(Name = "Số biên lai")]
-        [Required(ErrorMessage = "Số biên lai là bắt buộc")]
         [Range(1, int.MaxValue, ErrorMessage = "Số biên lai phải lớn hơn 0")]
         public int SoBL { get; set; }
 
@@ -25,8 +24,8 @@ namespace ClubManagement.Models
         public int MaLop { get; set; }
 
         [Display(Name = "Mã sinh viên")]
-        [Required(ErrorMessage = "Mã sinh viên là bắt buộc")]
-        [StringLength(10, MinimumLength = 3, ErrorMessage = "Mã sinh viên phải từ 3-10 ký tự")]
+        [Required(ErrorMessage = "Vui lòng chọn sinh viên")]
+        [StringLength(10, ErrorMessage = "Mã sinh viên không hợp lệ")]
         public string MaSV { get; set; } = string.Empty;
 
         [Display(Name = "Số tiền")]

@@ -5,7 +5,6 @@ namespace ClubManagement.Models
     public class CauLacBo
     {
         [Display(Name = "Mã CLB")]
-        [Required(ErrorMessage = "Mã câu lạc bộ là bắt buộc")]
         [Range(1, int.MaxValue, ErrorMessage = "Mã CLB phải lớn hơn 0")]
         public int MaCLB { get; set; }
 
