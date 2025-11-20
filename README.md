@@ -39,7 +39,7 @@ Mở file `appsettings.json` và cập nhật connection string (đã cấu hìn
 ```json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "paste tên sql server vào đây;Database=ClubManagementGlobal;Trusted_Connection=True;TrustServerCertificate=True;"
+      "DefaultConnection": "Server=paste tên sql server vào đây\\SQLEXPRESS;Database=ClubManagementGlobal;Trusted_Connection=True;TrustServerCertificate=True;"
   }
 }
 ```
