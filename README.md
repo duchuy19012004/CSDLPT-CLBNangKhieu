@@ -8,11 +8,21 @@
 
 ## Kiến trúc
 
-- **Mô hình**: Toàn cục duy nhất
+- **Mô hình**: Toàn cục duy nhất với phân mảnh ngang (Horizontal Fragmentation)
 - **Database**: SQL Server với 3 database:
-  - `ClubManagementGlobal`: Database toàn cục chứa các view
-  - `SiteA`: Chứa bảng CauLacBo và GiangVien
-  - `SiteB`: Chứa bảng SinhVien, LopNangKhieu và BienLai
+  - `ClubManagementGlobal`: Database toàn cục chứa các view (sử dụng UNION ALL)
+  - `SiteA`: Chứa dữ liệu với ID nhỏ
+    - CauLacBo (MaCLB 1-3)
+    - GiangVien (GV1-GV5)
+    - SinhVien (SV001-SV005)
+    - LopNangKhieu (MaLop 1-3)
+    - BienLai (SoBL 1-4)
+  - `SiteB`: Chứa dữ liệu với ID lớn
+    - CauLacBo (MaCLB 4+)
+    - GiangVien (GV6+)
+    - SinhVien (SV006+)
+    - LopNangKhieu (MaLop 4+)
+    - BienLai (SoBL 5+)
 
 ## Cài đặt
 
@@ -39,7 +49,7 @@ Mở file `appsettings.json` và cập nhật connection string (đã cấu hìn
 ```json
 {
   "ConnectionStrings": {
-      "DefaultConnection": "Server=paste tên sql server vào đây\\SQLEXPRESS;Database=ClubManagementGlobal;Trusted_Connection=True;TrustServerCertificate=True;"
+    "DefaultConnection": "Server=paste tên sql server vào đây\\SQLEXPRESS;Database=ClubManagementGlobal;Trusted_Connection=True;TrustServerCertificate=True;"
   }
 }
 ```
@@ -73,8 +83,9 @@ Truy cập: `https://localhost:5001` hoặc `http://localhost:5000`
 
 ## Mức trong suốt
 
-- **Trong suốt phân mảnh**: Người dùng thao tác trên view toàn cục như thể chỉ có một bảng
-- **Trong suốt vị trí**: Không cần biết dữ liệu lưu ở site nào, trigger tự động định tuyến
+- **Trong suốt phân mảnh**: Người dùng thao tác trên view toàn cục (UNION ALL) như thể chỉ có một bảng
+- **Trong suốt vị trí**: Không cần biết dữ liệu lưu ở site nào, trigger tự động định tuyến dựa trên ID
+- **Trong suốt sao chép**: View UNION ALL tự động kết hợp dữ liệu từ cả 2 site
 
 ## Công nghệ sử dụng
 
