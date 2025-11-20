@@ -29,12 +29,13 @@
                         var clbB = (int)Model["CauLacBo_SiteB"];
                         var clbTotal = clbA + clbB;
                         var clbPercentA = clbTotal > 0 ? (clbA * 100.0 / clbTotal) : 0;
+                        var clbPercentB = clbTotal > 0 ? (clbB * 100.0 / clbTotal) : 0;
                     }
-                    <div class="progress-bar bg-primary" style="width: @clbPercentA%">
+                    <div class="progress-bar bg-primary" style="width: @(clbPercentA)%">
                         @clbPercentA.ToString("F1")%
                     </div>
-                    <div class="progress-bar bg-success" style="width: @(100-clbPercentA)%">
-                        @(100-clbPercentA).ToString("F1")%
+                    <div class="progress-bar bg-success" style="width: @(clbPercentB)%">
+                        @clbPercentB.ToString("F1")%
                     </div>
                 </div>
             </div>
@@ -64,12 +65,13 @@
                         var gvB = (int)Model["GiangVien_SiteB"];
                         var gvTotal = gvA + gvB;
                         var gvPercentA = gvTotal > 0 ? (gvA * 100.0 / gvTotal) : 0;
+                        var gvPercentB = gvTotal > 0 ? (gvB * 100.0 / gvTotal) : 0;
                     }
-                    <div class="progress-bar bg-primary" style="width: @gvPercentA%">
+                    <div class="progress-bar bg-primary" style="width: @(gvPercentA)%">
                         @gvPercentA.ToString("F1")%
                     </div>
-                    <div class="progress-bar bg-success" style="width: @(100-gvPercentA)%">
-                        @(100-gvPercentA).ToString("F1")%
+                    <div class="progress-bar bg-success" style="width: @(gvPercentB)%">
+                        @gvPercentB.ToString("F1")%
                     </div>
                 </div>
             </div>
@@ -99,12 +101,13 @@
                         var svB = (int)Model["SinhVien_SiteB"];
                         var svTotal = svA + svB;
                         var svPercentA = svTotal > 0 ? (svA * 100.0 / svTotal) : 0;
+                        var svPercentB = svTotal > 0 ? (svB * 100.0 / svTotal) : 0;
                     }
-                    <div class="progress-bar bg-primary" style="width: @svPercentA%">
+                    <div class="progress-bar bg-primary" style="width: @(svPercentA)%">
                         @svPercentA.ToString("F1")%
                     </div>
-                    <div class="progress-bar bg-success" style="width: @(100-svPercentA)%">
-                        @(100-svPercentA).ToString("F1")%
+                    <div class="progress-bar bg-success" style="width: @(svPercentB)%">
+                        @svPercentB.ToString("F1")%
                     </div>
                 </div>
             </div>
@@ -134,12 +137,13 @@
                         var lopB = (int)Model["LopNangKhieu_SiteB"];
                         var lopTotal = lopA + lopB;
                         var lopPercentA = lopTotal > 0 ? (lopA * 100.0 / lopTotal) : 0;
+                        var lopPercentB = lopTotal > 0 ? (lopB * 100.0 / lopTotal) : 0;
                     }
-                    <div class="progress-bar bg-primary" style="width: @lopPercentA%">
+                    <div class="progress-bar bg-primary" style="width: @(lopPercentA)%">
                         @lopPercentA.ToString("F1")%
                     </div>
-                    <div class="progress-bar bg-success" style="width: @(100-lopPercentA)%">
-                        @(100-lopPercentA).ToString("F1")%
+                    <div class="progress-bar bg-success" style="width: @(lopPercentB)%">
+                        @lopPercentB.ToString("F1")%
                     </div>
                 </div>
             </div>
@@ -169,12 +173,13 @@
                         var blB = (int)Model["BienLai_SiteB"];
                         var blTotal = blA + blB;
                         var blPercentA = blTotal > 0 ? (blA * 100.0 / blTotal) : 0;
+                        var blPercentB = blTotal > 0 ? (blB * 100.0 / blTotal) : 0;
                     }
-                    <div class="progress-bar bg-primary" style="width: @blPercentA%">
+                    <div class="progress-bar bg-primary" style="width: @(blPercentA)%">
                         @blPercentA.ToString("F1")%
                     </div>
-                    <div class="progress-bar bg-success" style="width: @(100-blPercentA)%">
-                        @(100-blPercentA).ToString("F1")%
+                    <div class="progress-bar bg-success" style="width: @(blPercentB)%">
+                        @blPercentB.ToString("F1")%
                     </div>
                 </div>
             </div>
