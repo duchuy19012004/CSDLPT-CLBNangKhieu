@@ -2,6 +2,12 @@
 -- HỆ THỐNG QUẢN LÝ CÂU LẠC BỘ VÀ LỚP NĂNG KHIẾU
 -- Cơ sở dữ liệu phân tán - PHÂN MẢNH NGANG (Horizontal Fragmentation)
 -- Sử dụng UNION ALL để kết hợp dữ liệu từ nhiều site
+-- 
+-- PHƯƠNG ÁN 1: NGƯỠNG CỐ ĐỊNH
+-- - Site A: ID nhỏ (1-3)
+-- - Site B: ID lớn (4+)
+-- - Ngưỡng hard-code trong trigger, không thể thay đổi qua UI
+-- - Phù hợp cho: Demo, học tập, môi trường đơn giản
 -- =============================================
 
 USE master;
