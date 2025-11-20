@@ -1,0 +1,189 @@
+@model Dictionary<string, object>
+@{
+    ViewData["Title"] = "Thống kê phân bổ dữ liệu";
+}
+
+<h2><i class="fas fa-chart-bar me-2"></i>Thống kê phân bổ dữ liệu</h2>
+
+<div class="row">
+    <!-- Câu lạc bộ -->
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-building me-2"></i>Câu lạc bộ</h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-6">
+                        <h3 class="text-primary">@Model["CauLacBo_SiteA"]</h3>
+                        <p class="text-muted">Site A</p>
+                    </div>
+                    <div class="col-6">
+                        <h3 class="text-success">@Model["CauLacBo_SiteB"]</h3>
+                        <p class="text-muted">Site B</p>
+                    </div>
+                </div>
+                <div class="progress" style="height: 25px;">
+                    @{
+                        var clbA = (int)Model["CauLacBo_SiteA"];
+                        var clbB = (int)Model["CauLacBo_SiteB"];
+                        var clbTotal = clbA + clbB;
+                        var clbPercentA = clbTotal > 0 ? (clbA * 100.0 / clbTotal) : 0;
+                    }
+                    <div class="progress-bar bg-primary" style="width: @clbPercentA%">
+                        @clbPercentA.ToString("F1")%
+                    </div>
+                    <div class="progress-bar bg-success" style="width: @(100-clbPercentA)%">
+                        @(100-clbPercentA).ToString("F1")%
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Giảng viên -->
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="fas fa-chalkboard-teacher me-2"></i>Giảng viên</h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-6">
+                        <h3 class="text-primary">@Model["GiangVien_SiteA"]</h3>
+                        <p class="text-muted">Site A</p>
+                    </div>
+                    <div class="col-6">
+                        <h3 class="text-success">@Model["GiangVien_SiteB"]</h3>
+                        <p class="text-muted">Site B</p>
+                    </div>
+                </div>
+                <div class="progress" style="height: 25px;">
+                    @{
+                        var gvA = (int)Model["GiangVien_SiteA"];
+                        var gvB = (int)Model["GiangVien_SiteB"];
+                        var gvTotal = gvA + gvB;
+                        var gvPercentA = gvTotal > 0 ? (gvA * 100.0 / gvTotal) : 0;
+                    }
+                    <div class="progress-bar bg-primary" style="width: @gvPercentA%">
+                        @gvPercentA.ToString("F1")%
+                    </div>
+                    <div class="progress-bar bg-success" style="width: @(100-gvPercentA)%">
+                        @(100-gvPercentA).ToString("F1")%
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sinh viên -->
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0"><i class="fas fa-user-graduate me-2"></i>Sinh viên</h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-6">
+                        <h3 class="text-primary">@Model["SinhVien_SiteA"]</h3>
+                        <p class="text-muted">Site A</p>
+                    </div>
+                    <div class="col-6">
+                        <h3 class="text-success">@Model["SinhVien_SiteB"]</h3>
+                        <p class="text-muted">Site B</p>
+                    </div>
+                </div>
+                <div class="progress" style="height: 25px;">
+                    @{
+                        var svA = (int)Model["SinhVien_SiteA"];
+                        var svB = (int)Model["SinhVien_SiteB"];
+                        var svTotal = svA + svB;
+                        var svPercentA = svTotal > 0 ? (svA * 100.0 / svTotal) : 0;
+                    }
+                    <div class="progress-bar bg-primary" style="width: @svPercentA%">
+                        @svPercentA.ToString("F1")%
+                    </div>
+                    <div class="progress-bar bg-success" style="width: @(100-svPercentA)%">
+                        @(100-svPercentA).ToString("F1")%
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lớp năng khiếu -->
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="mb-0"><i class="fas fa-book me-2"></i>Lớp năng khiếu</h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-6">
+                        <h3 class="text-primary">@Model["LopNangKhieu_SiteA"]</h3>
+                        <p class="text-muted">Site A</p>
+                    </div>
+                    <div class="col-6">
+                        <h3 class="text-success">@Model["LopNangKhieu_SiteB"]</h3>
+                        <p class="text-muted">Site B</p>
+                    </div>
+                </div>
+                <div class="progress" style="height: 25px;">
+                    @{
+                        var lopA = (int)Model["LopNangKhieu_SiteA"];
+                        var lopB = (int)Model["LopNangKhieu_SiteB"];
+                        var lopTotal = lopA + lopB;
+                        var lopPercentA = lopTotal > 0 ? (lopA * 100.0 / lopTotal) : 0;
+                    }
+                    <div class="progress-bar bg-primary" style="width: @lopPercentA%">
+                        @lopPercentA.ToString("F1")%
+                    </div>
+                    <div class="progress-bar bg-success" style="width: @(100-lopPercentA)%">
+                        @(100-lopPercentA).ToString("F1")%
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Biên lai -->
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0"><i class="fas fa-receipt me-2"></i>Biên lai</h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-6">
+                        <h3 class="text-primary">@Model["BienLai_SiteA"]</h3>
+                        <p class="text-muted">Site A</p>
+                    </div>
+                    <div class="col-6">
+                        <h3 class="text-success">@Model["BienLai_SiteB"]</h3>
+                        <p class="text-muted">Site B</p>
+                    </div>
+                </div>
+                <div class="progress" style="height: 25px;">
+                    @{
+                        var blA = (int)Model["BienLai_SiteA"];
+                        var blB = (int)Model["BienLai_SiteB"];
+                        var blTotal = blA + blB;
+                        var blPercentA = blTotal > 0 ? (blA * 100.0 / blTotal) : 0;
+                    }
+                    <div class="progress-bar bg-primary" style="width: @blPercentA%">
+                        @blPercentA.ToString("F1")%
+                    </div>
+                    <div class="progress-bar bg-success" style="width: @(100-blPercentA)%">
+                        @(100-blPercentA).ToString("F1")%
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-3">
+    <a asp-action="Index" class="btn btn-secondary">
+        <i class="fas fa-arrow-left me-2"></i>Quay lại cấu hình
+    </a>
+</div>
