@@ -2,7 +2,7 @@
 -- HỆ THỐNG QUẢN LÝ CÂU LẠC BỘ - PHÂN MẢNH THEO THUỘC TÍNH
 -- Phân mảnh dựa trên giá trị thuộc tính (Attribute-based Fragmentation)
 -- 
--- PHƯƠNG ÁN 3: PHÂN MẢNH THEO THUỘC TÍNH (HỢP LÝ NHẤT)
+--   PHÂN MẢNH THEO THUỘC TÍNH
 -- - CauLacBo: Phân theo TenKhoa (K1,K2 → Site A | K3,K4,K5 → Site B)
 -- - GiangVien, SinhVien, LopNangKhieu, BienLai: Phân theo MaCLB
 -- - ID tự động tăng toàn cục, không bị giới hạn bởi site
