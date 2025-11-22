@@ -32,39 +32,52 @@
     ┌─────┴──────┐    ┌─────┴────────────────┴──────┐
     │            │    │                              │
     ↓            ↓    ↓                              ↓
-┌─────────────────────────┐         ┌─────────────────────────────┐
-│      SITE A             │         │         SITE B              │
-│   (Database: SiteA)     │         │    (Database: SiteB)        │
-├─────────────────────────┤         ├─────────────────────────────┤
-│  LOCAL SCHEMA           │         │  LOCAL SCHEMA               │
-│                         │         │                             │
-│ ┌─────────────────────┐ │         │ ┌─────────────────────────┐ │
-│ │   CauLacBo          │ │         │ │   SinhVien              │ │
-│ ├─────────────────────┤ │         │ ├─────────────────────────┤ │
-│ │ MaCLB (PK)          │ │         │ │ MaSV (PK)               │ │
-│ │ TenCLB              │ │         │ │ HoTenSV                 │ │
-│ │ TenKhoa             │ │         │ │ MaCLB (FK)              │ │
-│ └─────────────────────┘ │         │ └─────────────────────────┘ │
-│                         │         │                             │
-│ ┌─────────────────────┐ │         │ ┌─────────────────────────┐ │
-│ │   GiangVien         │ │         │ │   LopNangKhieu          │ │
-│ ├─────────────────────┤ │         │ ├─────────────────────────┤ │
-│ │ MaGV (PK)           │ │         │ │ MaLop (PK)              │ │
-│ │ HoTenGV             │ │         │ │ NgayMo                  │ │
-│ │ MaCLB (FK)          │ │         │ │ MaGV (FK)               │ │
-│ └─────────────────────┘ │         │ │ HocPhi                  │ │
-│                         │         │ └─────────────────────────┘ │
-│                         │         │                             │
-│                         │         │ ┌─────────────────────────┐ │
-│                         │         │ │   BienLai               │ │
-│                         │         │ ├─────────────────────────┤ │
-│                         │         │ │ SoBL (PK)               │ │
-│                         │         │ │ Thang, Nam              │ │
-│                         │         │ │ MaLop (FK)              │ │
-│                         │         │ │ MaSV (FK)               │ │
-│                         │         │ │ SoTien                  │ │
-│                         │         │ └─────────────────────────┘ │
-└─────────────────────────┘         └─────────────────────────────┘
+┌─────────────────────────────────┐   ┌─────────────────────────────────┐
+│         SITE A                  │   │         SITE B                  │
+│    (Database: SiteA)            │   │    (Database: SiteB)            │
+│    Khoa K1, K2                  │   │    Khoa K3, K4, K5              │
+├─────────────────────────────────┤   ├─────────────────────────────────┤
+│  LOCAL SCHEMA                   │   │  LOCAL SCHEMA                   │
+│                                 │   │                                 │
+│ ┌─────────────────────────────┐ │   │ ┌─────────────────────────────┐ │
+│ │   CauLacBo (TenKhoa=K1,K2)  │ │   │ │   CauLacBo (TenKhoa=K3,K4,K5)│ │
+│ ├─────────────────────────────┤ │   │ ├─────────────────────────────┤ │
+│ │ MaCLB (PK)                  │ │   │ │ MaCLB (PK)                  │ │
+│ │ TenCLB                      │ │   │ │ TenCLB                      │ │
+│ │ TenKhoa                     │ │   │ │ TenKhoa                     │ │
+│ └─────────────────────────────┘ │   │ └─────────────────────────────┘ │
+│                                 │   │                                 │
+│ ┌─────────────────────────────┐ │   │ ┌─────────────────────────────┐ │
+│ │   GiangVien (của CLB Site A)│ │   │ │   GiangVien (của CLB Site B)│ │
+│ ├─────────────────────────────┤ │   │ ├─────────────────────────────┤ │
+│ │ MaGV (PK)                   │ │   │ │ MaGV (PK)                   │ │
+│ │ HoTenGV                     │ │   │ │ HoTenGV                     │ │
+│ │ MaCLB (FK)                  │ │   │ │ MaCLB (FK)                  │ │
+│ └─────────────────────────────┘ │   │ └─────────────────────────────┘ │
+│                                 │   │                                 │
+│ ┌─────────────────────────────┐ │   │ ┌─────────────────────────────┐ │
+│ │   SinhVien (của CLB Site A) │ │   │ │   SinhVien (của CLB Site B) │ │
+│ ├─────────────────────────────┤ │   │ ├─────────────────────────────┤ │
+│ │ MaSV (PK)                   │ │   │ │ MaSV (PK)                   │ │
+│ │ HoTenSV                     │ │   │ │ HoTenSV                     │ │
+│ │ MaCLB (FK)                  │ │   │ │ MaCLB (FK)                  │ │
+│ └─────────────────────────────┘ │   │ └─────────────────────────────┘ │
+│                                 │   │                                 │
+│ ┌─────────────────────────────┐ │   │ ┌─────────────────────────────┐ │
+│ │   LopNangKhieu (của GV A)   │ │   │ │   LopNangKhieu (của GV B)   │ │
+│ ├─────────────────────────────┤ │   │ ├─────────────────────────────┤ │
+│ │ MaLop (PK)                  │ │   │ │ MaLop (PK)                  │ │
+│ │ NgayMo, MaGV, HocPhi        │ │   │ │ NgayMo, MaGV, HocPhi        │ │
+│ └─────────────────────────────┘ │   │ └─────────────────────────────┘ │
+│                                 │   │                                 │
+│ ┌─────────────────────────────┐ │   │ ┌─────────────────────────────┐ │
+│ │   BienLai (của Lớp A)       │ │   │ │   BienLai (của Lớp B)       │ │
+│ ├─────────────────────────────┤ │   │ ├─────────────────────────────┤ │
+│ │ SoBL (PK)                   │ │   │ │ SoBL (PK)                   │ │
+│ │ Thang, Nam, MaLop, MaSV     │ │   │ │ Thang, Nam, MaLop, MaSV     │ │
+│ │ SoTien                      │ │   │ │ SoTien                      │ │
+│ └─────────────────────────────┘ │   │ └─────────────────────────────┘ │
+└─────────────────────────────────┘   └─────────────────────────────────┘
 ```
 
 ## 2. Luồng xử lý dữ liệu
@@ -94,32 +107,42 @@
 └──────────────────────────────────────────────────────────────┘
 ```
 
-## 3. Phân mảnh dữ liệu theo ID
+## 3. Phân mảnh dữ liệu theo thuộc tính
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    PHÂN MẢNH THEO CHIỀU NGANG               │
-│                   (Horizontal Fragmentation)                │
-│                      Sử dụng UNION ALL                      │
+│              PHÂN MẢNH THEO CHIỀU NGANG DẪN XUẤT            │
+│           (Derived Horizontal Fragmentation)                │
+│                   Sử dụng UNION ALL                         │
 └─────────────────────────────────────────────────────────────┘
 
-        ┌──────────────────┴──────────────────┐
-        │                                     │
-        ↓                                     ↓
-┌──────────────────┐                ┌──────────────────┐
-│    SITE A        │                │     SITE B       │
-│                  │                │                  │
-│  Dữ liệu ID nhỏ  │                │  Dữ liệu ID lớn  │
-│                  │                │                  │
-│  • CauLacBo 1-3  │                │  • CauLacBo 4+   │
-│  • GiangVien 1-5 │                │  • GiangVien 6+  │
-│  • SinhVien 1-5  │                │  • SinhVien 6+   │
-│  • LopNK 1-3     │                │  • LopNK 4+      │
-│  • BienLai 1-4   │                │  • BienLai 5+    │
-└──────────────────┘                └──────────────────┘
+                    ┌─────────────────┐
+                    │   CauLacBo      │
+                    │ (Phân theo Khoa)│
+                    └────────┬────────┘
+                             │
+        ┌────────────────────┴────────────────────┐
+        │                                         │
+        ↓                                         ↓
+┌──────────────────┐                    ┌──────────────────┐
+│    SITE A        │                    │     SITE B       │
+│                  │                    │                  │
+│  Khoa K1, K2     │                    │  Khoa K3,K4,K5   │
+│                  │                    │                  │
+│  • CauLacBo      │                    │  • CauLacBo      │
+│    (K1, K2)      │                    │    (K3,K4,K5)    │
+│  • GiangVien     │                    │  • GiangVien     │
+│    (của CLB A)   │                    │    (của CLB B)   │
+│  • SinhVien      │                    │  • SinhVien      │
+│    (của CLB A)   │                    │    (của CLB B)   │
+│  • LopNangKhieu  │                    │  • LopNangKhieu  │
+│    (của GV A)    │                    │    (của GV B)    │
+│  • BienLai       │                    │  • BienLai       │
+│    (của Lớp A)   │                    │    (của Lớp B)   │
+└──────────────────┘                    └──────────────────┘
 
-        │                                     │
-        └──────────────────┬──────────────────┘
+        │                                         │
+        └──────────────────┬──────────────────────┘
                            ↓
                     ┌─────────────┐
                     │ UNION ALL   │
@@ -128,18 +151,18 @@
                     └─────────────┘
 ```
 
-## 4. Cơ chế Trigger INSTEAD OF với định tuyến
+## 4. Cơ chế Trigger INSTEAD OF với định tuyến theo thuộc tính
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│         MỖI VIEW CÓ 3 TRIGGER VỚI LOGIC ĐỊNH TUYẾN          │
+│      MỖI VIEW CÓ 3 TRIGGER VỚI LOGIC ĐỊNH TUYẾN THÔNG MINH  │
 └─────────────────────────────────────────────────────────────┘
 
     VIEW: vw_CauLacBo (UNION ALL từ Site A + Site B)
          │
          ├─→ trg_Insert_CauLacBo
-         │   ├─→ IF MaCLB 1-3  → INSERT vào SiteA.dbo.CauLacBo
-         │   └─→ IF MaCLB >= 4 → INSERT vào SiteB.dbo.CauLacBo
+         │   ├─→ IF TenKhoa IN (K1,K2) → INSERT vào SiteA.dbo.CauLacBo
+         │   └─→ IF TenKhoa IN (K3,K4,K5) → INSERT vào SiteB.dbo.CauLacBo
          │
          ├─→ trg_Update_CauLacBo
          │   ├─→ UPDATE SiteA.dbo.CauLacBo (nếu có)
@@ -150,22 +173,40 @@
              └─→ DELETE từ SiteB.dbo.CauLacBo
 
 
-    VIEW: vw_SinhVien (UNION ALL từ Site A + Site B)
+    VIEW: vw_GiangVien (UNION ALL từ Site A + Site B)
          │
-         ├─→ trg_Insert_SinhVien
-         │   ├─→ IF SV001-005 → INSERT vào SiteA.dbo.SinhVien
-         │   └─→ IF SV006+    → INSERT vào SiteB.dbo.SinhVien
+         ├─→ trg_Insert_GiangVien
+         │   ├─→ IF MaCLB EXISTS IN SiteA.CauLacBo → INSERT vào SiteA.dbo.GiangVien
+         │   └─→ IF MaCLB EXISTS IN SiteB.CauLacBo → INSERT vào SiteB.dbo.GiangVien
          │
-         ├─→ trg_Update_SinhVien
-         │   ├─→ UPDATE SiteA.dbo.SinhVien (nếu có)
-         │   └─→ UPDATE SiteB.dbo.SinhVien (nếu có)
+         ├─→ trg_Update_GiangVien
+         │   ├─→ UPDATE SiteA.dbo.GiangVien (nếu có)
+         │   └─→ UPDATE SiteB.dbo.GiangVien (nếu có)
          │
-         └─→ trg_Delete_SinhVien
-             ├─→ DELETE từ SiteA.dbo.SinhVien
-             └─→ DELETE từ SiteB.dbo.SinhVien
+         └─→ trg_Delete_GiangVien
+             ├─→ DELETE từ SiteA.dbo.GiangVien
+             └─→ DELETE từ SiteB.dbo.GiangVien
+
+
+    VIEW: vw_LopNangKhieu (UNION ALL từ Site A + Site B)
+         │
+         ├─→ trg_Insert_LopNangKhieu
+         │   ├─→ IF MaGV EXISTS IN SiteA.GiangVien → INSERT vào SiteA.dbo.LopNangKhieu
+         │   └─→ IF MaGV EXISTS IN SiteB.GiangVien → INSERT vào SiteB.dbo.LopNangKhieu
+         │
+         └─→ ... (tương tự UPDATE/DELETE)
+
+
+    VIEW: vw_BienLai (UNION ALL từ Site A + Site B)
+         │
+         ├─→ trg_Insert_BienLai
+         │   ├─→ IF MaLop EXISTS IN SiteA.LopNangKhieu → INSERT vào SiteA.dbo.BienLai
+         │   └─→ IF MaLop EXISTS IN SiteB.LopNangKhieu → INSERT vào SiteB.dbo.BienLai
+         │
+         └─→ ... (tương tự UPDATE/DELETE)
 ```
 
-## 5. Ví dụ truy vấn phân tán
+## 5. Ví dụ truy vấn phân tán với Data Locality
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -173,23 +214,38 @@
 └─────────────────────────────────────────────────────────────┘
 
 SELECT bl.*, l.*
-FROM vw_BienLai bl              ← Dữ liệu từ Site B
-JOIN vw_LopNangKhieu l          ← Dữ liệu từ Site B
+FROM vw_BienLai bl              ← UNION ALL từ cả 2 site
+JOIN vw_LopNangKhieu l          ← UNION ALL từ cả 2 site
   ON bl.MaLop = l.MaLop
-WHERE l.MaGV = 'GV5'            ← MaGV tham chiếu đến Site A
+WHERE l.MaGV = 'GV5'
+
+Nếu GV5 thuộc Site B:
+        ┌─────────────┐
+        │ Site B      │  ← Tất cả dữ liệu liên quan ở đây
+        │ GiangVien   │     (Data Locality)
+        │ LopNangKhieu│
+        │ BienLai     │
+        └─────────────┘
+              ↓
+        JOIN cục bộ, không cần truy cập Site A!
+
+
+┌─────────────────────────────────────────────────────────────┐
+│ Query 2: Sinh viên của CLB thuộc khoa K1                    │
+└─────────────────────────────────────────────────────────────┘
+
+SELECT sv.*, clb.*
+FROM vw_SinhVien sv
+JOIN vw_CauLacBo clb ON sv.MaCLB = clb.MaCLB
+WHERE clb.TenKhoa = 'K1'
 
         ┌─────────────┐
-        │ Site B      │  ← Thực hiện JOIN tại đây
-        │ BienLai +   │
-        │ LopNangKhieu│
+        │ Site A      │  ← CLB K1 và SinhVien cùng site
+        │ CauLacBo    │     (Data Locality)
+        │ SinhVien    │
         └─────────────┘
-              ↑
-              │ Tham chiếu MaGV
-              │
-        ┌─────────────┐
-        │ Site A      │
-        │ GiangVien   │
-        └─────────────┘
+              ↓
+        JOIN cục bộ, hiệu suất cao!
 ```
 
 ## 6. Tính trong suốt (Transparency)
@@ -212,14 +268,22 @@ WHERE l.MaGV = 'GV5'            ← MaGV tham chiếu đến Site A
     VALUES (...)                    VALUES (...)
 ```
 
-## 7. Lợi ích kiến trúc
+## 7. Lợi ích kiến trúc phân mảnh theo thuộc tính
 
 ```
 ┌──────────────────┐     ┌──────────────────┐     ┌──────────────────┐
-│  Tính trong suốt │     │   Phân tải       │     │  Dễ bảo trì      │
-│                  │     │                  │     │                  │
-│  User không cần  │     │  Mỗi site xử lý  │     │  Thay đổi phân   │
-│  biết vị trí     │     │  một phần dữ     │     │  mảnh không ảnh  │
-│  dữ liệu         │     │  liệu riêng      │     │  hưởng user      │
+│  Tính trong suốt │     │   Data Locality  │     │  ID không giới   │
+│                  │     │                  │     │  hạn             │
+│  User không cần  │     │  Dữ liệu liên    │     │                  │
+│  biết vị trí     │     │  quan cùng site  │     │  ID tự động tăng │
+│  dữ liệu         │     │  → JOIN nhanh    │     │  không bị chặn   │
+└──────────────────┘     └──────────────────┘     └──────────────────┘
+
+┌──────────────────┐     ┌──────────────────┐     ┌──────────────────┐
+│  Phân bổ cân     │     │  Dễ bảo trì      │     │  Mở rộng linh    │
+│  bằng            │     │                  │     │  hoạt            │
+│                  │     │  Thay đổi cấu    │     │                  │
+│  Phân theo khoa  │     │  hình khoa qua   │     │  Thêm khoa mới   │
+│  → Cân bằng tải  │     │  Web UI          │     │  dễ dàng         │
 └──────────────────┘     └──────────────────┘     └──────────────────┘
 ```
