@@ -17,7 +17,7 @@ namespace ClubManagement.Controllers
         public async Task<IActionResult> Index()
         {
             using var conn = _dbContext.GetConnection();
-            var cauLacBos = await conn.QueryAsync<CauLacBo>("SELECT * FROM vw_CauLacBo");
+            var cauLacBos = await conn.QueryAsync<CauLacBo>("SELECT * FROM vw_CauLacBo ORDER BY MaCLB");
             return View(cauLacBos);
         }
 

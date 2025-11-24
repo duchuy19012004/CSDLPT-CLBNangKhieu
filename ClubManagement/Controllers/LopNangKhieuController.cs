@@ -20,7 +20,8 @@ namespace ClubManagement.Controllers
             var lops = await conn.QueryAsync<LopNangKhieu>(
                 @"SELECT l.*, gv.HoTenGV as TenGV 
                   FROM vw_LopNangKhieu l 
-                  LEFT JOIN vw_GiangVien gv ON l.MaGV = gv.MaGV");
+                  LEFT JOIN vw_GiangVien gv ON l.MaGV = gv.MaGV
+                  ORDER BY l.MaLop");
             return View(lops);
         }
 

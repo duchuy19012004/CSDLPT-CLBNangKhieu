@@ -20,7 +20,8 @@ namespace ClubManagement.Controllers
             var bienLais = await conn.QueryAsync<BienLai>(
                 @"SELECT bl.*, sv.HoTenSV as TenSV 
                   FROM vw_BienLai bl 
-                  LEFT JOIN vw_SinhVien sv ON bl.MaSV = sv.MaSV");
+                  LEFT JOIN vw_SinhVien sv ON bl.MaSV = sv.MaSV
+                  ORDER BY bl.SoBL");
             return View(bienLais);
         }
 

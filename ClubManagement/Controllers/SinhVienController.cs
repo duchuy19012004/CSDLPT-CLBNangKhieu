@@ -20,7 +20,8 @@ namespace ClubManagement.Controllers
             var sinhViens = await conn.QueryAsync<SinhVien>(
                 @"SELECT sv.*, clb.TenCLB 
                   FROM vw_SinhVien sv 
-                  LEFT JOIN vw_CauLacBo clb ON sv.MaCLB = clb.MaCLB");
+                  LEFT JOIN vw_CauLacBo clb ON sv.MaCLB = clb.MaCLB
+                  ORDER BY sv.MaSV");
             return View(sinhViens);
         }
 
