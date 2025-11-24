@@ -39,26 +39,42 @@ namespace ClubManagement.Controllers
             
             if (ModelState.IsValid)
             {
-                using var conn = _dbContext.GetConnection();
-                
-                // Lấy số thứ tự lớn nhất từ mã GV (GV1, GV2, ...)
-                var maxGV = await conn.QueryFirstOrDefaultAsync<string>(
-                    "SELECT TOP 1 MaGV FROM vw_GiangVien ORDER BY CAST(SUBSTRING(MaGV, 3, LEN(MaGV)) AS INT) DESC");
-                
-                int nextNumber = 1;
-                if (!string.IsNullOrEmpty(maxGV))
+                try
                 {
-                    nextNumber = int.Parse(maxGV.Substring(2)) + 1;
+                    using var conn = _dbContext.GetConnection();
+                    
+                    // Lấy số thứ tự lớn nhất từ mã GV (GV1, GV2, ...)
+                    var maxGV = await conn.QueryFirstOrDefaultAsync<string>(
+                        "SELECT TOP 1 MaGV FROM vw_GiangVien ORDER BY CAST(SUBSTRING(MaGV, 3, LEN(MaGV)) AS INT) DESC");
+                    
+                    int nextNumber = 1;
+                    if (!string.IsNullOrEmpty(maxGV))
+                    {
+                        nextNumber = int.Parse(maxGV.Substring(2)) + 1;
+                    }
+                    model.MaGV = $"GV{nextNumber}";
+                    
+                    await conn.ExecuteAsync(
+                        "INSERT INTO vw_GiangVien (MaGV, HoTenGV, MaCLB) VALUES (@MaGV, @HoTenGV, @MaCLB)",
+                        model);
+                    TempData["SuccessMessage"] = "Thêm giảng viên thành công!";
+                    return RedirectToAction(nameof(Index));
                 }
-                model.MaGV = $"GV{nextNumber}";
-                
-                await conn.ExecuteAsync(
-                    "INSERT INTO vw_GiangVien (MaGV, HoTenGV, MaCLB) VALUES (@MaGV, @HoTenGV, @MaCLB)",
-                    model);
-                return RedirectToAction(nameof(Index));
+                catch (Exception ex)
+                {
+                    if (ex.Message.Contains("REFERENCE") || ex.Message.Contains("FK_"))
+                    {
+                        ModelState.AddModelError("", "Mã câu lạc bộ không tồn tại!");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", $"Lỗi: {ex.Message}");
+                    }
+                }
             }
             
-            ViewBag.CauLacBos = await _dbContext.GetConnection().QueryAsync<CauLacBo>("SELECT * FROM vw_CauLacBo");
+            using var connection = _dbContext.GetConnection();
+            ViewBag.CauLacBos = await connection.QueryAsync<CauLacBo>("SELECT * FROM vw_CauLacBo");
             return View(model);
         }
 
@@ -77,20 +93,53 @@ namespace ClubManagement.Controllers
         {
             if (ModelState.IsValid)
             {
-                using var conn = _dbContext.GetConnection();
-                await conn.ExecuteAsync(
-                    "UPDATE vw_GiangVien SET HoTenGV = @HoTenGV, MaCLB = @MaCLB WHERE MaGV = @MaGV",
-                    model);
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    using var conn = _dbContext.GetConnection();
+                    await conn.ExecuteAsync(
+                        "UPDATE vw_GiangVien SET HoTenGV = @HoTenGV, MaCLB = @MaCLB WHERE MaGV = @MaGV",
+                        model);
+                    TempData["SuccessMessage"] = "Cập nhật giảng viên thành công!";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    if (ex.Message.Contains("REFERENCE") || ex.Message.Contains("FK_"))
+                    {
+                        ModelState.AddModelError("", "Mã câu lạc bộ không tồn tại!");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", $"Lỗi: {ex.Message}");
+                    }
+                }
             }
+            
+            using var connection = _dbContext.GetConnection();
+            ViewBag.CauLacBos = await connection.QueryAsync<CauLacBo>("SELECT * FROM vw_CauLacBo");
             return View(model);
         }
 
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
-            using var conn = _dbContext.GetConnection();
-            await conn.ExecuteAsync("DELETE FROM vw_GiangVien WHERE MaGV = @Id", new { Id = id });
+            try
+            {
+                using var conn = _dbContext.GetConnection();
+                await conn.ExecuteAsync("DELETE FROM vw_GiangVien WHERE MaGV = @Id", new { Id = id });
+                TempData["SuccessMessage"] = "Xóa giảng viên thành công!";
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Contains("REFERENCE") || ex.Message.Contains("FK_"))
+                {
+                    TempData["ErrorMessage"] = "Không thể xóa giảng viên này vì còn lớp năng khiếu đang phụ trách!";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = $"Lỗi khi xóa: {ex.Message}";
+                }
+            }
             return RedirectToAction(nameof(Index));
         }
     }

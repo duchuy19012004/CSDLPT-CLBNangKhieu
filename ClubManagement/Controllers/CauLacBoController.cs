@@ -74,8 +74,24 @@ namespace ClubManagement.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
-            using var conn = _dbContext.GetConnection();
-            await conn.ExecuteAsync("DELETE FROM vw_CauLacBo WHERE MaCLB = @Id", new { Id = id });
+            try
+            {
+                using var conn = _dbContext.GetConnection();
+                await conn.ExecuteAsync("DELETE FROM vw_CauLacBo WHERE MaCLB = @Id", new { Id = id });
+                TempData["SuccessMessage"] = "Xóa câu lạc bộ thành công!";
+            }
+            catch (Exception ex)
+            {
+                // Kiểm tra lỗi vi phạm ràng buộc khóa ngoại
+                if (ex.Message.Contains("REFERENCE") || ex.Message.Contains("FK_"))
+                {
+                    TempData["ErrorMessage"] = "Không thể xóa câu lạc bộ này vì còn giảng viên hoặc sinh viên đang tham gia!";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = $"Lỗi khi xóa: {ex.Message}";
+                }
+            }
             return RedirectToAction(nameof(Index));
         }
     }

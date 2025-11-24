@@ -39,19 +39,35 @@ namespace ClubManagement.Controllers
             
             if (ModelState.IsValid)
             {
-                using var conn = _dbContext.GetConnection();
-                
-                // Lấy mã lớp lớn nhất hiện tại
-                var maxId = await conn.ExecuteScalarAsync<int?>("SELECT MAX(MaLop) FROM vw_LopNangKhieu") ?? 0;
-                model.MaLop = maxId + 1;
-                
-                await conn.ExecuteAsync(
-                    "INSERT INTO vw_LopNangKhieu (MaLop, NgayMo, MaGV, HocPhi) VALUES (@MaLop, @NgayMo, @MaGV, @HocPhi)",
-                    model);
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    using var conn = _dbContext.GetConnection();
+                    
+                    // Lấy mã lớp lớn nhất hiện tại
+                    var maxId = await conn.ExecuteScalarAsync<int?>("SELECT MAX(MaLop) FROM vw_LopNangKhieu") ?? 0;
+                    model.MaLop = maxId + 1;
+                    
+                    await conn.ExecuteAsync(
+                        "INSERT INTO vw_LopNangKhieu (MaLop, NgayMo, MaGV, HocPhi) VALUES (@MaLop, @NgayMo, @MaGV, @HocPhi)",
+                        model);
+                    TempData["SuccessMessage"] = "Thêm lớp năng khiếu thành công!";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    if (ex.Message.Contains("REFERENCE") || ex.Message.Contains("FK_"))
+                    {
+                        ModelState.AddModelError("", "Mã giảng viên không tồn tại!");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", $"Lỗi: {ex.Message}");
+                    }
+                }
             }
             
-            ViewBag.GiangViens = await _dbContext.GetConnection().QueryAsync<GiangVien>("SELECT * FROM vw_GiangVien");
+            using var connection = _dbContext.GetConnection();
+            ViewBag.GiangViens = await connection.QueryAsync<GiangVien>("SELECT * FROM vw_GiangVien");
             return View(model);
         }
 
@@ -70,20 +86,53 @@ namespace ClubManagement.Controllers
         {
             if (ModelState.IsValid)
             {
-                using var conn = _dbContext.GetConnection();
-                await conn.ExecuteAsync(
-                    "UPDATE vw_LopNangKhieu SET NgayMo = @NgayMo, MaGV = @MaGV, HocPhi = @HocPhi WHERE MaLop = @MaLop",
-                    model);
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    using var conn = _dbContext.GetConnection();
+                    await conn.ExecuteAsync(
+                        "UPDATE vw_LopNangKhieu SET NgayMo = @NgayMo, MaGV = @MaGV, HocPhi = @HocPhi WHERE MaLop = @MaLop",
+                        model);
+                    TempData["SuccessMessage"] = "Cập nhật lớp năng khiếu thành công!";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    if (ex.Message.Contains("REFERENCE") || ex.Message.Contains("FK_"))
+                    {
+                        ModelState.AddModelError("", "Mã giảng viên không tồn tại!");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", $"Lỗi: {ex.Message}");
+                    }
+                }
             }
+            
+            using var connection = _dbContext.GetConnection();
+            ViewBag.GiangViens = await connection.QueryAsync<GiangVien>("SELECT * FROM vw_GiangVien");
             return View(model);
         }
 
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
-            using var conn = _dbContext.GetConnection();
-            await conn.ExecuteAsync("DELETE FROM vw_LopNangKhieu WHERE MaLop = @Id", new { Id = id });
+            try
+            {
+                using var conn = _dbContext.GetConnection();
+                await conn.ExecuteAsync("DELETE FROM vw_LopNangKhieu WHERE MaLop = @Id", new { Id = id });
+                TempData["SuccessMessage"] = "Xóa lớp năng khiếu thành công!";
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Contains("REFERENCE") || ex.Message.Contains("FK_"))
+                {
+                    TempData["ErrorMessage"] = "Không thể xóa lớp này vì còn biên lai liên quan!";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = $"Lỗi khi xóa: {ex.Message}";
+                }
+            }
             return RedirectToAction(nameof(Index));
         }
     }
