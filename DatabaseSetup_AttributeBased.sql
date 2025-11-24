@@ -57,6 +57,10 @@ INSERT INTO FragmentationConfig (ConfigKey, ConfigValue, Description) VALUES
 GO
 
 -- Function kiểm tra khoa thuộc site nào
+IF OBJECT_ID('dbo.GetSiteForKhoa', 'FN') IS NOT NULL
+    DROP FUNCTION dbo.GetSiteForKhoa;
+GO
+
 CREATE FUNCTION dbo.GetSiteForKhoa(@TenKhoa NVARCHAR(50))
 RETURNS VARCHAR(10)
 AS
