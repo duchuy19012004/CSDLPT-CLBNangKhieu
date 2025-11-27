@@ -1,4 +1,4 @@
-# Mô Phỏng Hệ thống quản lý câu lạc bộ và lớp năng khiếu
+# Hệ thống Quản lý Câu lạc bộ - Cơ sở dữ liệu Phân tán
 
 Đồ án môn học: Cơ sở dữ liệu phân tán
 
@@ -6,77 +6,72 @@
 
 Ứng dụng web ASP.NET Core MVC mô phỏng hệ thống quản lý câu lạc bộ và lớp năng khiếu với cơ sở dữ liệu phân tán trên SQL Server.
 
-## Kiến trúc
+## Kiến trúc hệ thống
 
-- **Mô hình**: Toàn cục duy nhất với phân mảnh ngang (Horizontal Fragmentation)
-- **Database**: SQL Server với 3 database:
-  - `ClubManagementGlobal`: Database toàn cục chứa các view (sử dụng UNION ALL)
-  - `SiteA`: Chứa dữ liệu phân mảnh A
-  - `SiteB`: Chứa dữ liệu phân mảnh B
+```
+┌─────────────────────────────────────────────────────────┐
+│              ClubManagementGlobal                       │
+│         (View toàn cục - UNION ALL)                     │
+│    vw_CauLacBo, vw_GiangVien, vw_SinhVien, ...         │
+└─────────────────┬───────────────────┬───────────────────┘
+                  │                   │
+         ┌────────▼────────┐ ┌────────▼────────┐
+         │     Site A      │ │     Site B      │
+         │  (MaCLB lẻ)     │ │  (MaCLB chẵn)   │
+         │  1, 3, 5, 7...  │ │  2, 4, 6, 8...  │
+         └─────────────────┘ └─────────────────┘
+```
 
-### Phân bổ dữ liệu (với DatabaseSetup_AttributeBased.sql):
+## Phân mảnh theo ID (Chẵn/Lẻ)
 
-- **Site A**: Câu lạc bộ thuộc khoa K1, K2 và dữ liệu liên quan
+| Site   | Quy tắc | Ví dụ MaCLB       |
+| ------ | ------- | ----------------- |
+| Site A | ID lẻ   | 1, 3, 5, 7, 9...  |
+| Site B | ID chẵn | 2, 4, 6, 8, 10... |
 
-  - CauLacBo (TenKhoa = K1, K2)
-  - GiangVien (thuộc các CLB ở Site A)
-  - SinhVien (thuộc các CLB ở Site A)
-  - LopNangKhieu (do GV ở Site A giảng dạy)
-  - BienLai (của các lớp ở Site A)
+**Logic phân mảnh dẫn xuất:**
 
-- **Site B**: Câu lạc bộ thuộc khoa K3, K4, K5 và dữ liệu liên quan
-  - CauLacBo (TenKhoa = K3, K4, K5)
-  - GiangVien (thuộc các CLB ở Site B)
-  - SinhVien (thuộc các CLB ở Site B)
-  - LopNangKhieu (do GV ở Site B giảng dạy)
-  - BienLai (của các lớp ở Site B)
+- `CauLacBo`: Phân theo MaCLB (lẻ → A, chẵn → B)
+- `GiangVien`, `SinhVien`: Theo MaCLB của CLB
+- `LopNangKhieu`: Theo site của GiangVien
+- `BienLai`: Theo site của LopNangKhieu
+
+**Ưu điểm:**
+
+- Phân bố đều 50-50
+- Dễ scale, dễ hiểu
+- Không phụ thuộc nghiệp vụ
 
 ## Cài đặt
 
-### 1. Yêu cầu
+### Yêu cầu
 
 - .NET 8.0 SDK
-- SQL Server 2019 trở lên
-- Visual Studio 2022 hoặc VS Code
+- SQL Server 2019+
+- Visual Studio 2022 / VS Code
 
-### 2. Setup Database
+### 1. Setup Database
 
-Chạy file `DatabaseSetup_AttributeBased.sql` trong SQL Server Management Studio để:
+Chạy file SQL trong SSMS:
 
-- Tạo 3 database (ClubManagementGlobal, SiteA, SiteB)
-- Tạo các bảng thật tại các site
-- Tạo các view toàn cục với UNION ALL
-- Tạo các trigger INSTEAD OF với logic phân mảnh theo thuộc tính
-- Thêm dữ liệu mẫu
+```sql
+-- Chạy file này để setup database
+DatabaseSetup_IDBasedFragmentation.sql
+```
 
-**Logic phân mảnh (Derived Horizontal Fragmentation)**:
+### 2. Cấu hình Connection String
 
-- **CauLacBo**: Phân theo TenKhoa
-  - Site A: K1, K2
-  - Site B: K3, K4, K5
-- **GiangVien, SinhVien**: Phân theo MaCLB (cùng site với CauLacBo)
-- **LopNangKhieu**: Phân theo MaGV (cùng site với GiangVien)
-- **BienLai**: Phân theo MaLop (cùng site với LopNangKhieu)
-
-**Ưu điểm**:
-
-- ID tự động tăng không bị giới hạn
-- Dữ liệu liên quan nằm cùng site (data locality)
-- Phân bổ cân bằng theo nghiệp vụ
-
-### 3. Cấu hình Connection String
-
-Mở file `appsettings.json` và cập nhật connection string (đã cấu hình sẵn):
+Sửa file `ClubManagement/appsettings.json`:
 
 ```json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Server=paste tên sql server vào đây\\SQLEXPRESS;Database=ClubManagementGlobal;Trusted_Connection=True;TrustServerCertificate=True;"
+    "DefaultConnection": "Server=TEN_SERVER\\SQLEXPRESS;Database=ClubManagementGlobal;Trusted_Connection=True;TrustServerCertificate=True;"
   }
 }
 ```
 
-### 4. Restore packages và chạy ứng dụng
+### 3. Chạy ứng dụng
 
 ```bash
 cd ClubManagement
@@ -84,56 +79,55 @@ dotnet restore
 dotnet run
 ```
 
-Truy cập: `https://localhost:5001` hoặc `http://localhost:5000`
+Truy cập: `https://localhost:5001`
 
 ## Chức năng
 
 ### Quản lý dữ liệu (CRUD)
 
-1. **Câu lạc bộ**: Thêm, sửa, xóa, xem danh sách
-2. **Giảng viên**: Thêm, sửa, xóa, xem danh sách
-3. **Sinh viên**: Thêm, sửa, xóa, xem danh sách
-4. **Lớp năng khiếu**: Thêm, sửa, xóa, xem danh sách
-5. **Biên lai**: Thêm, sửa, xóa, xem danh sách
+- Câu lạc bộ
+- Giảng viên
+- Sinh viên
+- Lớp năng khiếu
+- Biên lai
 
-### Quản lý phân mảnh
+### Truy vấn phân tán
 
-1. **Cấu hình khoa**: Xem và chỉnh sửa danh sách khoa thuộc mỗi site (trong bảng FragmentationConfig)
-2. **Thống kê phân bổ**: Xem biểu đồ phân bổ dữ liệu giữa Site A và Site B
+- Truy vấn toàn cục qua view UNION ALL
+- Tự động định tuyến INSERT/UPDATE/DELETE qua trigger
 
-### Truy vấn toàn cục
+### Nhật ký hoạt động
 
-1. **Truy vấn 1**: Biên lai của các lớp do giảng viên GV5 giảng dạy
-2. **Truy vấn 2**: Tổng học phí sinh viên đóng cho một lớp
-3. **Truy vấn 3**: Các lớp mở trong tháng 08 năm 2012
-4. **Truy vấn 4**: Cập nhật khoa của câu lạc bộ (CLB 5: K3 → K2)
+- Ghi log tự động mọi thao tác INSERT/UPDATE/DELETE
+- Lọc theo thao tác, bảng, site, thời gian
+- Phân trang
 
 ## Mức trong suốt
 
-- **Trong suốt phân mảnh**: Người dùng thao tác trên view toàn cục (UNION ALL) như thể chỉ có một bảng
-- **Trong suốt vị trí**: Không cần biết dữ liệu lưu ở site nào, trigger tự động định tuyến dựa trên thuộc tính (TenKhoa, MaCLB, MaGV, MaLop)
-- **Trong suốt sao chép**: View UNION ALL tự động kết hợp dữ liệu từ cả 2 site
+| Loại                 | Mô tả                                    |
+| -------------------- | ---------------------------------------- |
+| Trong suốt phân mảnh | Thao tác trên view như 1 bảng duy nhất   |
+| Trong suốt vị trí    | Trigger tự động định tuyến theo ID       |
+| Trong suốt sao chép  | View UNION ALL kết hợp dữ liệu từ 2 site |
 
-## Công nghệ sử dụng
+## Công nghệ
 
 - ASP.NET Core 8.0 MVC
-- SQL Server
+- SQL Server (Distributed Database)
 - Dapper (Micro ORM)
 - Bootstrap 5
 
-## Cấu trúc thư mục
+## Cấu trúc
 
 ```
 ClubManagement/
-├── Controllers/        # Các controller xử lý logic
-├── Models/            # Các entity classes
-├── Views/             # Các view Razor
-├── Data/              # Database context
-└── wwwroot/           # Static files
+├── Controllers/     # Xử lý logic
+├── Models/          # Entity classes
+├── Views/           # Razor views
+├── Data/            # DbContext
+└── wwwroot/         # Static files
+
+SQL Files:
+├── DatabaseSetup_IDBasedFragmentation.sql  # Setup phân mảnh theo ID
+└── DatabaseSetup_AttributeBased.sql        # Setup phân mảnh theo thuộc tính (backup)
 ```
-
-## Lưu ý
-
-- Đảm bảo SQL Server đang chạy
-- Kiểm tra quyền truy cập cross-database
-- Connection string phải trỏ đến database `ClubManagementGlobal`
