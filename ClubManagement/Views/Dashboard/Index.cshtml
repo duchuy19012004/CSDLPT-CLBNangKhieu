@@ -1,0 +1,269 @@
+@model ClubManagement.Models.DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h2 class="mb-4"><i class="bi bi-speedometer2"></i> Dashboard - Thống kê hệ thống phân tán</h2>
+
+<!-- Tổng quan -->
+<div class="row mb-4">
+    <div class="col-md-2">
+        <div class="card text-white bg-primary">
+            <div class="card-body text-center">
+                <h3>@Model.TotalCLB</h3>
+                <p class="mb-0">Câu lạc bộ</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="card text-white bg-success">
+            <div class="card-body text-center">
+                <h3>@Model.TotalGV</h3>
+                <p class="mb-0">Giảng viên</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="card text-white bg-info">
+            <div class="card-body text-center">
+                <h3>@Model.TotalSV</h3>
+                <p class="mb-0">Sinh viên</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="card text-white bg-warning">
+            <div class="card-body text-center">
+                <h3>@Model.TotalLop</h3>
+                <p class="mb-0">Lớp năng khiếu</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="card text-white bg-secondary">
+            <div class="card-body text-center">
+                <h3>@Model.TotalBienLai</h3>
+                <p class="mb-0">Biên lai</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="card text-white bg-dark">
+            <div class="card-body text-center">
+                <h5>@Model.TotalRevenue.ToString("N0")</h5>
+                <p class="mb-0">Tổng thu (VNĐ)</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- So sánh 2 Site -->
+<div class="row">
+    <!-- Site A - TPHCM -->
+    <div class="col-md-6">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0"><i class="bi bi-geo-alt"></i> Site A - TP. Hồ Chí Minh</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-sm mb-0">
+                    <tr>
+                        <td>Câu lạc bộ</td>
+                        <td class="text-end"><strong>@Model.SiteA_CLB</strong></td>
+                        <td class="text-end text-muted">
+                            @if (Model.TotalCLB > 0)
+                            {
+                                @(((double)Model.SiteA_CLB / Model.TotalCLB * 100).ToString("F1"))@:%
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Giảng viên</td>
+                        <td class="text-end"><strong>@Model.SiteA_GV</strong></td>
+                        <td class="text-end text-muted">
+                            @if (Model.TotalGV > 0)
+                            {
+                                @(((double)Model.SiteA_GV / Model.TotalGV * 100).ToString("F1"))@:%
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Sinh viên</td>
+                        <td class="text-end"><strong>@Model.SiteA_SV</strong></td>
+                        <td class="text-end text-muted">
+                            @if (Model.TotalSV > 0)
+                            {
+                                @(((double)Model.SiteA_SV / Model.TotalSV * 100).ToString("F1"))@:%
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Lớp năng khiếu</td>
+                        <td class="text-end"><strong>@Model.SiteA_Lop</strong></td>
+                        <td class="text-end text-muted">
+                            @if (Model.TotalLop > 0)
+                            {
+                                @(((double)Model.SiteA_Lop / Model.TotalLop * 100).ToString("F1"))@:%
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Biên lai</td>
+                        <td class="text-end"><strong>@Model.SiteA_BienLai</strong></td>
+                        <td class="text-end text-muted">
+                            @if (Model.TotalBienLai > 0)
+                            {
+                                @(((double)Model.SiteA_BienLai / Model.TotalBienLai * 100).ToString("F1"))@:%
+                            }
+                        </td>
+                    </tr>
+                    <tr class="table-danger">
+                        <td><strong>Doanh thu</strong></td>
+                        <td class="text-end"><strong>@Model.SiteA_Revenue.ToString("N0") đ</strong></td>
+                        <td class="text-end">
+                            @if (Model.TotalRevenue > 0)
+                            {
+                                @(((double)Model.SiteA_Revenue / (double)Model.TotalRevenue * 100).ToString("F1"))@:%
+                            }
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Site B - Hà Nội -->
+    <div class="col-md-6">
+        <div class="card border-success">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="bi bi-geo-alt"></i> Site B - Hà Nội</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-sm mb-0">
+                    <tr>
+                        <td>Câu lạc bộ</td>
+                        <td class="text-end"><strong>@Model.SiteB_CLB</strong></td>
+                        <td class="text-end text-muted">
+                            @if (Model.TotalCLB > 0)
+                            {
+                                @(((double)Model.SiteB_CLB / Model.TotalCLB * 100).ToString("F1"))@:%
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Giảng viên</td>
+                        <td class="text-end"><strong>@Model.SiteB_GV</strong></td>
+                        <td class="text-end text-muted">
+                            @if (Model.TotalGV > 0)
+                            {
+                                @(((double)Model.SiteB_GV / Model.TotalGV * 100).ToString("F1"))@:%
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Sinh viên</td>
+                        <td class="text-end"><strong>@Model.SiteB_SV</strong></td>
+                        <td class="text-end text-muted">
+                            @if (Model.TotalSV > 0)
+                            {
+                                @(((double)Model.SiteB_SV / Model.TotalSV * 100).ToString("F1"))@:%
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Lớp năng khiếu</td>
+                        <td class="text-end"><strong>@Model.SiteB_Lop</strong></td>
+                        <td class="text-end text-muted">
+                            @if (Model.TotalLop > 0)
+                            {
+                                @(((double)Model.SiteB_Lop / Model.TotalLop * 100).ToString("F1"))@:%
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Biên lai</td>
+                        <td class="text-end"><strong>@Model.SiteB_BienLai</strong></td>
+                        <td class="text-end text-muted">
+                            @if (Model.TotalBienLai > 0)
+                            {
+                                @(((double)Model.SiteB_BienLai / Model.TotalBienLai * 100).ToString("F1"))@:%
+                            }
+                        </td>
+                    </tr>
+                    <tr class="table-success">
+                        <td><strong>Doanh thu</strong></td>
+                        <td class="text-end"><strong>@Model.SiteB_Revenue.ToString("N0") đ</strong></td>
+                        <td class="text-end">
+                            @if (Model.TotalRevenue > 0)
+                            {
+                                @(((double)Model.SiteB_Revenue / (double)Model.TotalRevenue * 100).ToString("F1"))@:%
+                            }
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Biểu đồ phân bố -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="bi bi-bar-chart"></i> Phân bố dữ liệu giữa 2 Site</h5>
+            </div>
+            <div class="card-body">
+                <!-- CLB -->
+                <div class="mb-3">
+                    <label>Câu lạc bộ</label>
+                    <div class="progress" style="height: 25px;">
+                        @{
+                            var clbA = Model.TotalCLB > 0 ? (double)Model.SiteA_CLB / Model.TotalCLB * 100 : 0;
+                            var clbB = Model.TotalCLB > 0 ? (double)Model.SiteB_CLB / Model.TotalCLB * 100 : 0;
+                        }
+                        <div class="progress-bar bg-danger" style="width: @clbA%">TPHCM: @Model.SiteA_CLB</div>
+                        <div class="progress-bar bg-success" style="width: @clbB%">Hà Nội: @Model.SiteB_CLB</div>
+                    </div>
+                </div>
+                <!-- GV -->
+                <div class="mb-3">
+                    <label>Giảng viên</label>
+                    <div class="progress" style="height: 25px;">
+                        @{
+                            var gvA = Model.TotalGV > 0 ? (double)Model.SiteA_GV / Model.TotalGV * 100 : 0;
+                            var gvB = Model.TotalGV > 0 ? (double)Model.SiteB_GV / Model.TotalGV * 100 : 0;
+                        }
+                        <div class="progress-bar bg-danger" style="width: @gvA%">TPHCM: @Model.SiteA_GV</div>
+                        <div class="progress-bar bg-success" style="width: @gvB%">Hà Nội: @Model.SiteB_GV</div>
+                    </div>
+                </div>
+                <!-- SV -->
+                <div class="mb-3">
+                    <label>Sinh viên</label>
+                    <div class="progress" style="height: 25px;">
+                        @{
+                            var svA = Model.TotalSV > 0 ? (double)Model.SiteA_SV / Model.TotalSV * 100 : 0;
+                            var svB = Model.TotalSV > 0 ? (double)Model.SiteB_SV / Model.TotalSV * 100 : 0;
+                        }
+                        <div class="progress-bar bg-danger" style="width: @svA%">TPHCM: @Model.SiteA_SV</div>
+                        <div class="progress-bar bg-success" style="width: @svB%">Hà Nội: @Model.SiteB_SV</div>
+                    </div>
+                </div>
+                <!-- Doanh thu -->
+                <div class="mb-0">
+                    <label>Doanh thu</label>
+                    <div class="progress" style="height: 25px;">
+                        @{
+                            var revA = Model.TotalRevenue > 0 ? (double)Model.SiteA_Revenue / (double)Model.TotalRevenue * 100 : 0;
+                            var revB = Model.TotalRevenue > 0 ? (double)Model.SiteB_Revenue / (double)Model.TotalRevenue * 100 : 0;
+                        }
+                        <div class="progress-bar bg-danger" style="width: @revA%">TPHCM</div>
+                        <div class="progress-bar bg-success" style="width: @revB%">Hà Nội</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
