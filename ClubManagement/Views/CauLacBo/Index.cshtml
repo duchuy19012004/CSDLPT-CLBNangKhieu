@@ -37,6 +37,7 @@
                     <th>Mã CLB</th>
                     <th>Tên câu lạc bộ</th>
                     <th>Tên khoa</th>
+                    <th>Khu vực</th>
                     <th style="width: 150px;">Thao tác</th>
                 </tr>
             </thead>
@@ -47,6 +48,20 @@
                         <td>@item.MaCLB</td>
                         <td>@item.TenCLB</td>
                         <td><span class="badge bg-info">@item.TenKhoa</span></td>
+                        <td>
+                            @if (item.KhuVuc == "TPHCM")
+                            {
+                                <span class="badge bg-danger">TP.HCM</span>
+                            }
+                            else if (item.KhuVuc == "HaNoi")
+                            {
+                                <span class="badge bg-success">Hà Nội</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">@item.KhuVuc</span>
+                            }
+                        </td>
                         <td>
                             <a asp-action="Edit" asp-route-id="@item.MaCLB" class="btn btn-sm btn-warning">Sửa</a>
                             <form asp-action="Delete" asp-route-id="@item.MaCLB" method="post" style="display:inline;">

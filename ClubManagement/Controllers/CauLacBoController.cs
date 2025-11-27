@@ -57,7 +57,7 @@ namespace ClubManagement.Controllers
                 model.MaCLB = maxId + 1;
                 
                 await conn.ExecuteAsync(
-                    "INSERT INTO vw_CauLacBo (MaCLB, TenCLB, TenKhoa) VALUES (@MaCLB, @TenCLB, @TenKhoa)",
+                    "INSERT INTO vw_CauLacBo (MaCLB, TenCLB, TenKhoa, KhuVuc) VALUES (@MaCLB, @TenCLB, @TenKhoa, @KhuVuc)",
                     model);
                 return RedirectToAction(nameof(Index));
             }
@@ -80,7 +80,7 @@ namespace ClubManagement.Controllers
             {
                 using var conn = _dbContext.GetConnection();
                 await conn.ExecuteAsync(
-                    "UPDATE vw_CauLacBo SET TenCLB = @TenCLB, TenKhoa = @TenKhoa WHERE MaCLB = @MaCLB",
+                    "UPDATE vw_CauLacBo SET TenCLB = @TenCLB, TenKhoa = @TenKhoa, KhuVuc = @KhuVuc WHERE MaCLB = @MaCLB",
                     model);
                 return RedirectToAction(nameof(Index));
             }

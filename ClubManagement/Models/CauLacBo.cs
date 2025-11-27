@@ -5,7 +5,6 @@ namespace ClubManagement.Models
     public class CauLacBo
     {
         [Display(Name = "Mã CLB")]
-        [Range(1, int.MaxValue, ErrorMessage = "Mã CLB phải lớn hơn 0")]
         public int MaCLB { get; set; }
 
         [Display(Name = "Tên câu lạc bộ")]
@@ -15,7 +14,13 @@ namespace ClubManagement.Models
 
         [Display(Name = "Tên khoa")]
         [Required(ErrorMessage = "Tên khoa là bắt buộc")]
-        [StringLength(50, MinimumLength = 2, ErrorMessage = "Tên khoa phải từ 2-50 ký tự")]
         public string TenKhoa { get; set; } = string.Empty;
+
+        [Display(Name = "Khu vực")]
+        [Required(ErrorMessage = "Khu vực là bắt buộc")]
+        public string KhuVuc { get; set; } = string.Empty;
+
+        // Để hiển thị site nguồn (từ view)
+        public string? SourceSite { get; set; }
     }
 }
