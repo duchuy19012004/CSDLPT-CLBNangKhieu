@@ -1,56 +1,91 @@
 @model IEnumerable<ClubManagement.Models.BienLai>
 @{
     ViewData["Title"] = "Danh sách biên lai";
+    var currentPage = (int)ViewBag.CurrentPage;
+    var totalPages = (int)ViewBag.TotalPages;
+    var totalRecords = (int)ViewBag.TotalRecords;
 }
 
 @if (TempData["SuccessMessage"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <i class="fas fa-check-circle me-2"></i>@TempData["SuccessMessage"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <i class="bi bi-check-circle me-2"></i>@TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 }
 
 @if (TempData["ErrorMessage"] != null)
 {
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <i class="fas fa-exclamation-circle me-2"></i>@TempData["ErrorMessage"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <i class="bi bi-exclamation-circle me-2"></i>@TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 }
 
-<h2>Danh sách biên lai</h2>
-<p>
-    <a asp-action="Create" class="btn btn-primary">Thêm mới</a>
-</p>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Danh sách biên lai</h2>
+    <a asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Thêm mới</a>
+</div>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Số BL</th>
-            <th>Tháng/Năm</th>
-            <th>Mã lớp</th>
-            <th>Sinh viên</th>
-            <th>Số tiền</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.SoBL</td>
-                <td>@item.Thang/@item.Nam</td>
-                <td>@item.MaLop</td>
-                <td>@item.TenSV</td>
-                <td>@item.SoTien.ToString("N0") VNĐ</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.SoBL" class="btn btn-sm btn-warning">Sửa</a>
-                    <form asp-action="Delete" asp-route-id="@item.SoBL" method="post" style="display:inline;">
-                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</button>
-                    </form>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<p class="text-muted">Tổng: @totalRecords biên lai</p>
+
+<div class="card">
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th>Số BL</th>
+                    <th>Tháng/Năm</th>
+                    <th>Mã lớp</th>
+                    <th>Sinh viên</th>
+                    <th>Số tiền</th>
+                    <th style="width: 150px;">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.SoBL</td>
+                        <td>@item.Thang/@item.Nam</td>
+                        <td>@item.MaLop</td>
+                        <td>@item.TenSV</td>
+                        <td>@item.SoTien.ToString("N0") VNĐ</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.SoBL" class="btn btn-sm btn-warning">Sửa</a>
+                            <form asp-action="Delete" asp-route-id="@item.SoBL" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@if (totalPages > 1)
+{
+    <nav class="mt-4">
+        <ul class="pagination justify-content-center">
+            <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-route-page="1">Đầu</a>
+            </li>
+            <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-route-page="@(currentPage - 1)">Trước</a>
+            </li>
+            @for (var i = Math.Max(1, currentPage - 2); i <= Math.Min(totalPages, currentPage + 2); i++)
+            {
+                <li class="page-item @(i == currentPage ? "active" : "")">
+                    <a class="page-link" asp-action="Index" asp-route-page="@i">@i</a>
+                </li>
+            }
+            <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-route-page="@(currentPage + 1)">Sau</a>
+            </li>
+            <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-route-page="@totalPages">Cuối</a>
+            </li>
+        </ul>
+    </nav>
+}

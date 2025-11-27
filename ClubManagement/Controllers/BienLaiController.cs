@@ -14,14 +14,29 @@ namespace ClubManagement.Controllers
             _dbContext = dbContext;
         }
 
-        public async Task<IActionResult> Index()
+        private const int PageSize = 12;
+
+        public async Task<IActionResult> Index(int page = 1)
         {
             using var conn = _dbContext.GetConnection();
+            
+            var totalRecords = await conn.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM vw_BienLai");
+            var totalPages = (int)Math.Ceiling(totalRecords / (double)PageSize);
+            page = Math.Max(1, Math.Min(page, totalPages > 0 ? totalPages : 1));
+            var offset = (page - 1) * PageSize;
+
             var bienLais = await conn.QueryAsync<BienLai>(
                 @"SELECT bl.*, sv.HoTenSV as TenSV 
                   FROM vw_BienLai bl 
                   LEFT JOIN vw_SinhVien sv ON bl.MaSV = sv.MaSV
-                  ORDER BY bl.SoBL");
+                  ORDER BY bl.SoBL
+                  OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY",
+                new { Offset = offset, PageSize });
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.TotalRecords = totalRecords;
+            
             return View(bienLais);
         }
 

@@ -154,6 +154,15 @@
             <ul class="pagination justify-content-center">
                 <li class="page-item @(currentPage == 1 ? "disabled" : "")">
                     <a class="page-link" asp-action="Index" 
+                       asp-route-page="1"
+                       asp-route-actionFilter="@ViewBag.ActionFilter"
+                       asp-route-tableName="@ViewBag.TableName"
+                       asp-route-site="@ViewBag.Site"
+                       asp-route-fromDate="@ViewBag.FromDate"
+                       asp-route-toDate="@ViewBag.ToDate">Đầu</a>
+                </li>
+                <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                    <a class="page-link" asp-action="Index" 
                        asp-route-page="@(currentPage - 1)"
                        asp-route-actionFilter="@ViewBag.ActionFilter"
                        asp-route-tableName="@ViewBag.TableName"
@@ -183,6 +192,15 @@
                        asp-route-site="@ViewBag.Site"
                        asp-route-fromDate="@ViewBag.FromDate"
                        asp-route-toDate="@ViewBag.ToDate">Sau</a>
+                </li>
+                <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+                    <a class="page-link" asp-action="Index" 
+                       asp-route-page="@totalPages"
+                       asp-route-actionFilter="@ViewBag.ActionFilter"
+                       asp-route-tableName="@ViewBag.TableName"
+                       asp-route-site="@ViewBag.Site"
+                       asp-route-fromDate="@ViewBag.FromDate"
+                       asp-route-toDate="@ViewBag.ToDate">Cuối</a>
                 </li>
             </ul>
         </nav>
