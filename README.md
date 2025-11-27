@@ -17,30 +17,30 @@
                   │                   │
          ┌────────▼────────┐ ┌────────▼────────┐
          │     Site A      │ │     Site B      │
-         │  (MaCLB lẻ)     │ │  (MaCLB chẵn)   │
-         │  1, 3, 5, 7...  │ │  2, 4, 6, 8...  │
+         │   TP.HCM        │ │    Hà Nội       │
+         │  KhuVuc=TPHCM   │ │  KhuVuc=HaNoi   │
          └─────────────────┘ └─────────────────┘
 ```
 
-## Phân mảnh theo ID (Chẵn/Lẻ)
+## Phân mảnh theo Khu vực (Geographic Partitioning)
 
-| Site   | Quy tắc | Ví dụ MaCLB       |
-| ------ | ------- | ----------------- |
-| Site A | ID lẻ   | 1, 3, 5, 7, 9...  |
-| Site B | ID chẵn | 2, 4, 6, 8, 10... |
+| Site   | Khu vực | Mô tả           |
+| ------ | ------- | --------------- |
+| Site A | TPHCM   | TP. Hồ Chí Minh |
+| Site B | HaNoi   | Hà Nội          |
 
-**Logic phân mảnh dẫn xuất:**
+**Logic phân mảnh:**
 
-- `CauLacBo`: Phân theo MaCLB (lẻ → A, chẵn → B)
-- `GiangVien`, `SinhVien`: Theo MaCLB của CLB
-- `LopNangKhieu`: Theo site của GiangVien
-- `BienLai`: Theo site của LopNangKhieu
+- `CauLacBo`: Phân theo KhuVuc
+- `GiangVien`, `SinhVien`: Theo site của CauLacBo (MaCLB)
+- `LopNangKhieu`: Theo site của GiangVien (MaGV)
+- `BienLai`: Theo site của LopNangKhieu (MaLop)
 
 **Ưu điểm:**
 
-- Phân bố đều 50-50
-- Dễ scale, dễ hiểu
-- Không phụ thuộc nghiệp vụ
+- Giảm latency theo vùng địa lý
+- Dễ mở rộng thêm khu vực mới
+- Phù hợp nghiệp vụ thực tế
 
 ## Cài đặt
 
@@ -52,12 +52,7 @@
 
 ### 1. Setup Database
 
-Chạy file SQL trong SSMS:
-
-```sql
--- Chạy file này để setup database
-DatabaseSetup_IDBasedFragmentation.sql
-```
+Chạy file `DatabaseSetup_Geographic.sql` trong SQL Server Management Studio.
 
 ### 2. Cấu hình Connection String
 
@@ -83,51 +78,22 @@ Truy cập: `https://localhost:5001`
 
 ## Chức năng
 
-### Quản lý dữ liệu (CRUD)
-
-- Câu lạc bộ
-- Giảng viên
-- Sinh viên
-- Lớp năng khiếu
-- Biên lai
-
-### Truy vấn phân tán
-
-- Truy vấn toàn cục qua view UNION ALL
-- Tự động định tuyến INSERT/UPDATE/DELETE qua trigger
-
-### Nhật ký hoạt động
-
-- Ghi log tự động mọi thao tác INSERT/UPDATE/DELETE
-- Lọc theo thao tác, bảng, site, thời gian
-- Phân trang
+- CRUD: Câu lạc bộ, Giảng viên, Sinh viên, Lớp năng khiếu, Biên lai
+- Truy vấn phân tán qua view UNION ALL
+- Nhật ký hoạt động (Activity Log)
+- Phân trang 12 dòng/trang
 
 ## Mức trong suốt
 
 | Loại                 | Mô tả                                    |
 | -------------------- | ---------------------------------------- |
 | Trong suốt phân mảnh | Thao tác trên view như 1 bảng duy nhất   |
-| Trong suốt vị trí    | Trigger tự động định tuyến theo ID       |
+| Trong suốt vị trí    | Trigger tự động định tuyến theo KhuVuc   |
 | Trong suốt sao chép  | View UNION ALL kết hợp dữ liệu từ 2 site |
 
 ## Công nghệ
 
 - ASP.NET Core 8.0 MVC
-- SQL Server (Distributed Database)
-- Dapper (Micro ORM)
+- SQL Server
+- Dapper
 - Bootstrap 5
-
-## Cấu trúc
-
-```
-ClubManagement/
-├── Controllers/     # Xử lý logic
-├── Models/          # Entity classes
-├── Views/           # Razor views
-├── Data/            # DbContext
-└── wwwroot/         # Static files
-
-SQL Files:
-├── DatabaseSetup_IDBasedFragmentation.sql  # Setup phân mảnh theo ID
-└── DatabaseSetup_AttributeBased.sql        # Setup phân mảnh theo thuộc tính (backup)
-```
