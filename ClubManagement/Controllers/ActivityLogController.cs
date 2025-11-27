@@ -64,10 +64,10 @@ namespace ClubManagement.Controllers
             page = Math.Max(1, Math.Min(page, totalPages));
             var offset = (page - 1) * PageSize;
 
-            // Get data
+            // Get data - Sắp xếp theo LogId DESC để hiển thị tuần tự
             var dataSql = $@"SELECT LogId, Action, TableName, RecordId, Site, Username, Timestamp, Details 
                              FROM vw_ActivityLog {whereClause} 
-                             ORDER BY Timestamp DESC 
+                             ORDER BY LogId DESC 
                              OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
             parameters.Add("Offset", offset);
             parameters.Add("PageSize", PageSize);

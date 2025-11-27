@@ -47,6 +47,22 @@ INSERT INTO FragmentationConfig (ConfigKey, ConfigValue, Description) VALUES
 ('SiteB_Region', 'HaNoi', N'Site B: Hà Nội');
 GO
 
+-- =============================================
+-- TẠO SEQUENCE TOÀN CỤC CHO ACTIVITYLOG
+-- Đảm bảo LogId tuần tự không trùng giữa các Site
+-- =============================================
+IF OBJECT_ID('seq_ActivityLogId', 'SO') IS NOT NULL DROP SEQUENCE seq_ActivityLogId;
+GO
+
+CREATE SEQUENCE seq_ActivityLogId
+    AS INT
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO CYCLE
+    CACHE 10;
+GO
+
 -- Function xác định site theo KhuVuc
 IF OBJECT_ID('dbo.GetSiteByKhuVuc', 'FN') IS NOT NULL DROP FUNCTION dbo.GetSiteByKhuVuc;
 GO
@@ -119,7 +135,7 @@ CREATE TABLE BienLai (
 );
 
 CREATE TABLE ActivityLog (
-    LogId INT IDENTITY(1,1) PRIMARY KEY,
+    LogId INT PRIMARY KEY,
     Action NVARCHAR(20) NOT NULL,
     TableName NVARCHAR(50) NOT NULL,
     RecordId NVARCHAR(50),
@@ -186,7 +202,7 @@ CREATE TABLE BienLai (
 );
 
 CREATE TABLE ActivityLog (
-    LogId INT IDENTITY(1,1) PRIMARY KEY,
+    LogId INT PRIMARY KEY,
     Action NVARCHAR(20) NOT NULL,
     TableName NVARCHAR(50) NOT NULL,
     RecordId NVARCHAR(50),
@@ -504,14 +520,14 @@ AS
 BEGIN
     SET NOCOUNT ON;
     IF EXISTS (SELECT 1 FROM inserted) AND NOT EXISTS (SELECT 1 FROM deleted)
-        INSERT INTO ActivityLog (Action, TableName, RecordId, Site, Details)
-        SELECT 'INSERT', 'CauLacBo', CAST(MaCLB AS NVARCHAR), 'SiteA', N'Thêm CLB: ' + TenCLB + N' (' + KhuVuc + N')' FROM inserted;
+        INSERT INTO ActivityLog (LogId, Action, TableName, RecordId, Site, Details)
+        SELECT NEXT VALUE FOR ClubManagementGlobal.dbo.seq_ActivityLogId, 'INSERT', 'CauLacBo', CAST(MaCLB AS NVARCHAR), 'SiteA', N'Thêm CLB: ' + TenCLB + N' (' + KhuVuc + N')' FROM inserted;
     ELSE IF EXISTS (SELECT 1 FROM inserted) AND EXISTS (SELECT 1 FROM deleted)
-        INSERT INTO ActivityLog (Action, TableName, RecordId, Site, Details)
-        SELECT 'UPDATE', 'CauLacBo', CAST(MaCLB AS NVARCHAR), 'SiteA', N'Cập nhật CLB: ' + TenCLB FROM inserted;
+        INSERT INTO ActivityLog (LogId, Action, TableName, RecordId, Site, Details)
+        SELECT NEXT VALUE FOR ClubManagementGlobal.dbo.seq_ActivityLogId, 'UPDATE', 'CauLacBo', CAST(MaCLB AS NVARCHAR), 'SiteA', N'Cập nhật CLB: ' + TenCLB FROM inserted;
     ELSE IF EXISTS (SELECT 1 FROM deleted)
-        INSERT INTO ActivityLog (Action, TableName, RecordId, Site, Details)
-        SELECT 'DELETE', 'CauLacBo', CAST(MaCLB AS NVARCHAR), 'SiteA', N'Xóa CLB: ' + TenCLB FROM deleted;
+        INSERT INTO ActivityLog (LogId, Action, TableName, RecordId, Site, Details)
+        SELECT NEXT VALUE FOR ClubManagementGlobal.dbo.seq_ActivityLogId, 'DELETE', 'CauLacBo', CAST(MaCLB AS NVARCHAR), 'SiteA', N'Xóa CLB: ' + TenCLB FROM deleted;
 END;
 GO
 
@@ -520,14 +536,14 @@ AS
 BEGIN
     SET NOCOUNT ON;
     IF EXISTS (SELECT 1 FROM inserted) AND NOT EXISTS (SELECT 1 FROM deleted)
-        INSERT INTO ActivityLog (Action, TableName, RecordId, Site, Details)
-        SELECT 'INSERT', 'GiangVien', MaGV, 'SiteA', N'Thêm GV: ' + HoTenGV FROM inserted;
+        INSERT INTO ActivityLog (LogId, Action, TableName, RecordId, Site, Details)
+        SELECT NEXT VALUE FOR ClubManagementGlobal.dbo.seq_ActivityLogId, 'INSERT', 'GiangVien', MaGV, 'SiteA', N'Thêm GV: ' + HoTenGV FROM inserted;
     ELSE IF EXISTS (SELECT 1 FROM inserted) AND EXISTS (SELECT 1 FROM deleted)
-        INSERT INTO ActivityLog (Action, TableName, RecordId, Site, Details)
-        SELECT 'UPDATE', 'GiangVien', MaGV, 'SiteA', N'Cập nhật GV: ' + HoTenGV FROM inserted;
+        INSERT INTO ActivityLog (LogId, Action, TableName, RecordId, Site, Details)
+        SELECT NEXT VALUE FOR ClubManagementGlobal.dbo.seq_ActivityLogId, 'UPDATE', 'GiangVien', MaGV, 'SiteA', N'Cập nhật GV: ' + HoTenGV FROM inserted;
     ELSE IF EXISTS (SELECT 1 FROM deleted)
-        INSERT INTO ActivityLog (Action, TableName, RecordId, Site, Details)
-        SELECT 'DELETE', 'GiangVien', MaGV, 'SiteA', N'Xóa GV: ' + HoTenGV FROM deleted;
+        INSERT INTO ActivityLog (LogId, Action, TableName, RecordId, Site, Details)
+        SELECT NEXT VALUE FOR ClubManagementGlobal.dbo.seq_ActivityLogId, 'DELETE', 'GiangVien', MaGV, 'SiteA', N'Xóa GV: ' + HoTenGV FROM deleted;
 END;
 GO
 
@@ -536,14 +552,14 @@ AS
 BEGIN
     SET NOCOUNT ON;
     IF EXISTS (SELECT 1 FROM inserted) AND NOT EXISTS (SELECT 1 FROM deleted)
-        INSERT INTO ActivityLog (Action, TableName, RecordId, Site, Details)
-        SELECT 'INSERT', 'SinhVien', MaSV, 'SiteA', N'Thêm SV: ' + HoTenSV FROM inserted;
+        INSERT INTO ActivityLog (LogId, Action, TableName, RecordId, Site, Details)
+        SELECT NEXT VALUE FOR ClubManagementGlobal.dbo.seq_ActivityLogId, 'INSERT', 'SinhVien', MaSV, 'SiteA', N'Thêm SV: ' + HoTenSV FROM inserted;
     ELSE IF EXISTS (SELECT 1 FROM inserted) AND EXISTS (SELECT 1 FROM deleted)
-        INSERT INTO ActivityLog (Action, TableName, RecordId, Site, Details)
-        SELECT 'UPDATE', 'SinhVien', MaSV, 'SiteA', N'Cập nhật SV: ' + HoTenSV FROM inserted;
+        INSERT INTO ActivityLog (LogId, Action, TableName, RecordId, Site, Details)
+        SELECT NEXT VALUE FOR ClubManagementGlobal.dbo.seq_ActivityLogId, 'UPDATE', 'SinhVien', MaSV, 'SiteA', N'Cập nhật SV: ' + HoTenSV FROM inserted;
     ELSE IF EXISTS (SELECT 1 FROM deleted)
-        INSERT INTO ActivityLog (Action, TableName, RecordId, Site, Details)
-        SELECT 'DELETE', 'SinhVien', MaSV, 'SiteA', N'Xóa SV: ' + HoTenSV FROM deleted;
+        INSERT INTO ActivityLog (LogId, Action, TableName, RecordId, Site, Details)
+        SELECT NEXT VALUE FOR ClubManagementGlobal.dbo.seq_ActivityLogId, 'DELETE', 'SinhVien', MaSV, 'SiteA', N'Xóa SV: ' + HoTenSV FROM deleted;
 END;
 GO
 
@@ -552,14 +568,14 @@ AS
 BEGIN
     SET NOCOUNT ON;
     IF EXISTS (SELECT 1 FROM inserted) AND NOT EXISTS (SELECT 1 FROM deleted)
-        INSERT INTO ActivityLog (Action, TableName, RecordId, Site, Details)
-        SELECT 'INSERT', 'LopNangKhieu', CAST(MaLop AS NVARCHAR), 'SiteA', N'Thêm lớp: ' + CAST(MaLop AS NVARCHAR) FROM inserted;
+        INSERT INTO ActivityLog (LogId, Action, TableName, RecordId, Site, Details)
+        SELECT NEXT VALUE FOR ClubManagementGlobal.dbo.seq_ActivityLogId, 'INSERT', 'LopNangKhieu', CAST(MaLop AS NVARCHAR), 'SiteA', N'Thêm lớp: ' + CAST(MaLop AS NVARCHAR) FROM inserted;
     ELSE IF EXISTS (SELECT 1 FROM inserted) AND EXISTS (SELECT 1 FROM deleted)
-        INSERT INTO ActivityLog (Action, TableName, RecordId, Site, Details)
-        SELECT 'UPDATE', 'LopNangKhieu', CAST(MaLop AS NVARCHAR), 'SiteA', N'Cập nhật lớp: ' + CAST(MaLop AS NVARCHAR) FROM inserted;
+        INSERT INTO ActivityLog (LogId, Action, TableName, RecordId, Site, Details)
+        SELECT NEXT VALUE FOR ClubManagementGlobal.dbo.seq_ActivityLogId, 'UPDATE', 'LopNangKhieu', CAST(MaLop AS NVARCHAR), 'SiteA', N'Cập nhật lớp: ' + CAST(MaLop AS NVARCHAR) FROM inserted;
     ELSE IF EXISTS (SELECT 1 FROM deleted)
-        INSERT INTO ActivityLog (Action, TableName, RecordId, Site, Details)
-        SELECT 'DELETE', 'LopNangKhieu', CAST(MaLop AS NVARCHAR), 'SiteA', N'Xóa lớp: ' + CAST(MaLop AS NVARCHAR) FROM deleted;
+        INSERT INTO ActivityLog (LogId, Action, TableName, RecordId, Site, Details)
+        SELECT NEXT VALUE FOR ClubManagementGlobal.dbo.seq_ActivityLogId, 'DELETE', 'LopNangKhieu', CAST(MaLop AS NVARCHAR), 'SiteA', N'Xóa lớp: ' + CAST(MaLop AS NVARCHAR) FROM deleted;
 END;
 GO
 
@@ -568,14 +584,14 @@ AS
 BEGIN
     SET NOCOUNT ON;
     IF EXISTS (SELECT 1 FROM inserted) AND NOT EXISTS (SELECT 1 FROM deleted)
-        INSERT INTO ActivityLog (Action, TableName, RecordId, Site, Details)
-        SELECT 'INSERT', 'BienLai', CAST(SoBL AS NVARCHAR), 'SiteA', N'Thêm biên lai: ' + CAST(SoBL AS NVARCHAR) FROM inserted;
+        INSERT INTO ActivityLog (LogId, Action, TableName, RecordId, Site, Details)
+        SELECT NEXT VALUE FOR ClubManagementGlobal.dbo.seq_ActivityLogId, 'INSERT', 'BienLai', CAST(SoBL AS NVARCHAR), 'SiteA', N'Thêm biên lai: ' + CAST(SoBL AS NVARCHAR) FROM inserted;
     ELSE IF EXISTS (SELECT 1 FROM inserted) AND EXISTS (SELECT 1 FROM deleted)
-        INSERT INTO ActivityLog (Action, TableName, RecordId, Site, Details)
-        SELECT 'UPDATE', 'BienLai', CAST(SoBL AS NVARCHAR), 'SiteA', N'Cập nhật biên lai: ' + CAST(SoBL AS NVARCHAR) FROM inserted;
+        INSERT INTO ActivityLog (LogId, Action, TableName, RecordId, Site, Details)
+        SELECT NEXT VALUE FOR ClubManagementGlobal.dbo.seq_ActivityLogId, 'UPDATE', 'BienLai', CAST(SoBL AS NVARCHAR), 'SiteA', N'Cập nhật biên lai: ' + CAST(SoBL AS NVARCHAR) FROM inserted;
     ELSE IF EXISTS (SELECT 1 FROM deleted)
-        INSERT INTO ActivityLog (Action, TableName, RecordId, Site, Details)
-        SELECT 'DELETE', 'BienLai', CAST(SoBL AS NVARCHAR), 'SiteA', N'Xóa biên lai: ' + CAST(SoBL AS NVARCHAR) FROM deleted;
+        INSERT INTO ActivityLog (LogId, Action, TableName, RecordId, Site, Details)
+        SELECT NEXT VALUE FOR ClubManagementGlobal.dbo.seq_ActivityLogId, 'DELETE', 'BienLai', CAST(SoBL AS NVARCHAR), 'SiteA', N'Xóa biên lai: ' + CAST(SoBL AS NVARCHAR) FROM deleted;
 END;
 GO
 
@@ -587,14 +603,14 @@ AS
 BEGIN
     SET NOCOUNT ON;
     IF EXISTS (SELECT 1 FROM inserted) AND NOT EXISTS (SELECT 1 FROM deleted)
-        INSERT INTO ActivityLog (Action, TableName, RecordId, Site, Details)
-        SELECT 'INSERT', 'CauLacBo', CAST(MaCLB AS NVARCHAR), 'SiteB', N'Thêm CLB: ' + TenCLB + N' (' + KhuVuc + N')' FROM inserted;
+        INSERT INTO ActivityLog (LogId, Action, TableName, RecordId, Site, Details)
+        SELECT NEXT VALUE FOR ClubManagementGlobal.dbo.seq_ActivityLogId, 'INSERT', 'CauLacBo', CAST(MaCLB AS NVARCHAR), 'SiteB', N'Thêm CLB: ' + TenCLB + N' (' + KhuVuc + N')' FROM inserted;
     ELSE IF EXISTS (SELECT 1 FROM inserted) AND EXISTS (SELECT 1 FROM deleted)
-        INSERT INTO ActivityLog (Action, TableName, RecordId, Site, Details)
-        SELECT 'UPDATE', 'CauLacBo', CAST(MaCLB AS NVARCHAR), 'SiteB', N'Cập nhật CLB: ' + TenCLB FROM inserted;
+        INSERT INTO ActivityLog (LogId, Action, TableName, RecordId, Site, Details)
+        SELECT NEXT VALUE FOR ClubManagementGlobal.dbo.seq_ActivityLogId, 'UPDATE', 'CauLacBo', CAST(MaCLB AS NVARCHAR), 'SiteB', N'Cập nhật CLB: ' + TenCLB FROM inserted;
     ELSE IF EXISTS (SELECT 1 FROM deleted)
-        INSERT INTO ActivityLog (Action, TableName, RecordId, Site, Details)
-        SELECT 'DELETE', 'CauLacBo', CAST(MaCLB AS NVARCHAR), 'SiteB', N'Xóa CLB: ' + TenCLB FROM deleted;
+        INSERT INTO ActivityLog (LogId, Action, TableName, RecordId, Site, Details)
+        SELECT NEXT VALUE FOR ClubManagementGlobal.dbo.seq_ActivityLogId, 'DELETE', 'CauLacBo', CAST(MaCLB AS NVARCHAR), 'SiteB', N'Xóa CLB: ' + TenCLB FROM deleted;
 END;
 GO
 
@@ -603,14 +619,14 @@ AS
 BEGIN
     SET NOCOUNT ON;
     IF EXISTS (SELECT 1 FROM inserted) AND NOT EXISTS (SELECT 1 FROM deleted)
-        INSERT INTO ActivityLog (Action, TableName, RecordId, Site, Details)
-        SELECT 'INSERT', 'GiangVien', MaGV, 'SiteB', N'Thêm GV: ' + HoTenGV FROM inserted;
+        INSERT INTO ActivityLog (LogId, Action, TableName, RecordId, Site, Details)
+        SELECT NEXT VALUE FOR ClubManagementGlobal.dbo.seq_ActivityLogId, 'INSERT', 'GiangVien', MaGV, 'SiteB', N'Thêm GV: ' + HoTenGV FROM inserted;
     ELSE IF EXISTS (SELECT 1 FROM inserted) AND EXISTS (SELECT 1 FROM deleted)
-        INSERT INTO ActivityLog (Action, TableName, RecordId, Site, Details)
-        SELECT 'UPDATE', 'GiangVien', MaGV, 'SiteB', N'Cập nhật GV: ' + HoTenGV FROM inserted;
+        INSERT INTO ActivityLog (LogId, Action, TableName, RecordId, Site, Details)
+        SELECT NEXT VALUE FOR ClubManagementGlobal.dbo.seq_ActivityLogId, 'UPDATE', 'GiangVien', MaGV, 'SiteB', N'Cập nhật GV: ' + HoTenGV FROM inserted;
     ELSE IF EXISTS (SELECT 1 FROM deleted)
-        INSERT INTO ActivityLog (Action, TableName, RecordId, Site, Details)
-        SELECT 'DELETE', 'GiangVien', MaGV, 'SiteB', N'Xóa GV: ' + HoTenGV FROM deleted;
+        INSERT INTO ActivityLog (LogId, Action, TableName, RecordId, Site, Details)
+        SELECT NEXT VALUE FOR ClubManagementGlobal.dbo.seq_ActivityLogId, 'DELETE', 'GiangVien', MaGV, 'SiteB', N'Xóa GV: ' + HoTenGV FROM deleted;
 END;
 GO
 
@@ -619,14 +635,14 @@ AS
 BEGIN
     SET NOCOUNT ON;
     IF EXISTS (SELECT 1 FROM inserted) AND NOT EXISTS (SELECT 1 FROM deleted)
-        INSERT INTO ActivityLog (Action, TableName, RecordId, Site, Details)
-        SELECT 'INSERT', 'SinhVien', MaSV, 'SiteB', N'Thêm SV: ' + HoTenSV FROM inserted;
+        INSERT INTO ActivityLog (LogId, Action, TableName, RecordId, Site, Details)
+        SELECT NEXT VALUE FOR ClubManagementGlobal.dbo.seq_ActivityLogId, 'INSERT', 'SinhVien', MaSV, 'SiteB', N'Thêm SV: ' + HoTenSV FROM inserted;
     ELSE IF EXISTS (SELECT 1 FROM inserted) AND EXISTS (SELECT 1 FROM deleted)
-        INSERT INTO ActivityLog (Action, TableName, RecordId, Site, Details)
-        SELECT 'UPDATE', 'SinhVien', MaSV, 'SiteB', N'Cập nhật SV: ' + HoTenSV FROM inserted;
+        INSERT INTO ActivityLog (LogId, Action, TableName, RecordId, Site, Details)
+        SELECT NEXT VALUE FOR ClubManagementGlobal.dbo.seq_ActivityLogId, 'UPDATE', 'SinhVien', MaSV, 'SiteB', N'Cập nhật SV: ' + HoTenSV FROM inserted;
     ELSE IF EXISTS (SELECT 1 FROM deleted)
-        INSERT INTO ActivityLog (Action, TableName, RecordId, Site, Details)
-        SELECT 'DELETE', 'SinhVien', MaSV, 'SiteB', N'Xóa SV: ' + HoTenSV FROM deleted;
+        INSERT INTO ActivityLog (LogId, Action, TableName, RecordId, Site, Details)
+        SELECT NEXT VALUE FOR ClubManagementGlobal.dbo.seq_ActivityLogId, 'DELETE', 'SinhVien', MaSV, 'SiteB', N'Xóa SV: ' + HoTenSV FROM deleted;
 END;
 GO
 
@@ -635,14 +651,14 @@ AS
 BEGIN
     SET NOCOUNT ON;
     IF EXISTS (SELECT 1 FROM inserted) AND NOT EXISTS (SELECT 1 FROM deleted)
-        INSERT INTO ActivityLog (Action, TableName, RecordId, Site, Details)
-        SELECT 'INSERT', 'LopNangKhieu', CAST(MaLop AS NVARCHAR), 'SiteB', N'Thêm lớp: ' + CAST(MaLop AS NVARCHAR) FROM inserted;
+        INSERT INTO ActivityLog (LogId, Action, TableName, RecordId, Site, Details)
+        SELECT NEXT VALUE FOR ClubManagementGlobal.dbo.seq_ActivityLogId, 'INSERT', 'LopNangKhieu', CAST(MaLop AS NVARCHAR), 'SiteB', N'Thêm lớp: ' + CAST(MaLop AS NVARCHAR) FROM inserted;
     ELSE IF EXISTS (SELECT 1 FROM inserted) AND EXISTS (SELECT 1 FROM deleted)
-        INSERT INTO ActivityLog (Action, TableName, RecordId, Site, Details)
-        SELECT 'UPDATE', 'LopNangKhieu', CAST(MaLop AS NVARCHAR), 'SiteB', N'Cập nhật lớp: ' + CAST(MaLop AS NVARCHAR) FROM inserted;
+        INSERT INTO ActivityLog (LogId, Action, TableName, RecordId, Site, Details)
+        SELECT NEXT VALUE FOR ClubManagementGlobal.dbo.seq_ActivityLogId, 'UPDATE', 'LopNangKhieu', CAST(MaLop AS NVARCHAR), 'SiteB', N'Cập nhật lớp: ' + CAST(MaLop AS NVARCHAR) FROM inserted;
     ELSE IF EXISTS (SELECT 1 FROM deleted)
-        INSERT INTO ActivityLog (Action, TableName, RecordId, Site, Details)
-        SELECT 'DELETE', 'LopNangKhieu', CAST(MaLop AS NVARCHAR), 'SiteB', N'Xóa lớp: ' + CAST(MaLop AS NVARCHAR) FROM deleted;
+        INSERT INTO ActivityLog (LogId, Action, TableName, RecordId, Site, Details)
+        SELECT NEXT VALUE FOR ClubManagementGlobal.dbo.seq_ActivityLogId, 'DELETE', 'LopNangKhieu', CAST(MaLop AS NVARCHAR), 'SiteB', N'Xóa lớp: ' + CAST(MaLop AS NVARCHAR) FROM deleted;
 END;
 GO
 
@@ -651,14 +667,14 @@ AS
 BEGIN
     SET NOCOUNT ON;
     IF EXISTS (SELECT 1 FROM inserted) AND NOT EXISTS (SELECT 1 FROM deleted)
-        INSERT INTO ActivityLog (Action, TableName, RecordId, Site, Details)
-        SELECT 'INSERT', 'BienLai', CAST(SoBL AS NVARCHAR), 'SiteB', N'Thêm biên lai: ' + CAST(SoBL AS NVARCHAR) FROM inserted;
+        INSERT INTO ActivityLog (LogId, Action, TableName, RecordId, Site, Details)
+        SELECT NEXT VALUE FOR ClubManagementGlobal.dbo.seq_ActivityLogId, 'INSERT', 'BienLai', CAST(SoBL AS NVARCHAR), 'SiteB', N'Thêm biên lai: ' + CAST(SoBL AS NVARCHAR) FROM inserted;
     ELSE IF EXISTS (SELECT 1 FROM inserted) AND EXISTS (SELECT 1 FROM deleted)
-        INSERT INTO ActivityLog (Action, TableName, RecordId, Site, Details)
-        SELECT 'UPDATE', 'BienLai', CAST(SoBL AS NVARCHAR), 'SiteB', N'Cập nhật biên lai: ' + CAST(SoBL AS NVARCHAR) FROM inserted;
+        INSERT INTO ActivityLog (LogId, Action, TableName, RecordId, Site, Details)
+        SELECT NEXT VALUE FOR ClubManagementGlobal.dbo.seq_ActivityLogId, 'UPDATE', 'BienLai', CAST(SoBL AS NVARCHAR), 'SiteB', N'Cập nhật biên lai: ' + CAST(SoBL AS NVARCHAR) FROM inserted;
     ELSE IF EXISTS (SELECT 1 FROM deleted)
-        INSERT INTO ActivityLog (Action, TableName, RecordId, Site, Details)
-        SELECT 'DELETE', 'BienLai', CAST(SoBL AS NVARCHAR), 'SiteB', N'Xóa biên lai: ' + CAST(SoBL AS NVARCHAR) FROM deleted;
+        INSERT INTO ActivityLog (LogId, Action, TableName, RecordId, Site, Details)
+        SELECT NEXT VALUE FOR ClubManagementGlobal.dbo.seq_ActivityLogId, 'DELETE', 'BienLai', CAST(SoBL AS NVARCHAR), 'SiteB', N'Xóa biên lai: ' + CAST(SoBL AS NVARCHAR) FROM deleted;
 END;
 GO
 
